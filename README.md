@@ -27,3 +27,9 @@ _____________________________________________
 full VCA ENV now available:
 
 ![full VCA ENV now available](media/fullVCA.png)
+
+_____________________________________________
+
+Added more controls:
+
+![full VCA ENV now available](media/updatedCntrl.png)

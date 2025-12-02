@@ -19,6 +19,8 @@
     <br><br>
 
     <div id="controls">
+        <h2>VCA Envelope (Volume)</h2>
+
         <label for="vca-attack">VCA EG Attack (CC 81):</label>
         <input type="range" id="vca-attack" min="0" max="127" value="64">
 
@@ -36,6 +38,44 @@
 
         <label for="vca-release">VCA EG Release (CC 84):</label>
         <input type="range" id="vca-release" min="0" max="127" value="64">
+
+        <br><br><br>
+
+        <h2>VCF Filter Main Parameters</h2>
+
+        <label for="vcf-cutoff">Filter Cutoff (CC 74):</label>
+        <input type="range" id="vcf-cutoff" min="0" max="127" value="80">
+        
+        <br>
+
+        <label for="vcf-resonance">Filter Resonance (CC 71):</label>
+        <input type="range" id="vcf-resonance" min="0" max="127" value="10">
+
+        <br>
+
+        <label for="vcf-env-amount">Filter Env Amount (CC 47):</label>
+        <input type="range" id="vcf-env-amount" min="0" max="127" value="64">
+
+        <br><br><br>
+
+        <h2>VCF Envelope (Filter)</h2>
+        <label for="vcf-attack">VCF EG Attack (CC 85):</label>
+        <input type="range" id="vcf-attack" min="0" max="127" value="64">
+        
+        <br>
+
+        <label for="vcf-decay">VCF EG Decay (CC 86):</label>
+        <input type="range" id="vcf-decay" min="0" max="127" value="64">
+
+        <br>
+
+        <label for="vcf-sustain">VCF EG Sustain (CC 87):</label>
+        <input type="range" id="vcf-sustain" min="0" max="127" value="100">
+
+        <br>
+
+        <label for="vcf-release">VCF EG Release (CC 88):</label>
+        <input type="range" id="vcf-release" min="0" max="127" value="64">
     </div>
     
 </body>

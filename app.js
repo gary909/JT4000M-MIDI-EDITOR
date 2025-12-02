@@ -7,6 +7,16 @@ const CC_VCA_DECAY = 82;
 const CC_VCA_SUSTAIN = 83;
 const CC_VCA_RELEASE = 84;
 
+const CC_VCF_ATTACK = 85;
+const CC_VCF_DECAY = 86;
+const CC_VCF_SUSTAIN = 87;
+const CC_VCF_RELEASE = 88;
+
+const CC_VCF_CUTOFF = 74;
+const CC_VCF_RESONANCE = 71;
+
+const CC_VCF_ENV_AMOUNT = 47;
+
 // --- INITIALIZATION ---
 if (navigator.requestMIDIAccess) {
     navigator.requestMIDIAccess().then(onMIDISuccess, onMIDIFailure);
@@ -69,6 +79,71 @@ function onMIDISuccess(midiAccess) {
         releaseSlider.addEventListener('input', (event) => {
             const ccValue = parseInt(event.target.value);
             sendMidiCC(CC_VCA_RELEASE, ccValue);
+        });
+    }
+
+    // VCF Cutoff (CC 74) Listener - NEW
+    const cutoffSlider = document.getElementById('vcf-cutoff');
+    if (cutoffSlider) {
+        cutoffSlider.addEventListener('input', (event) => {
+            const ccValue = parseInt(event.target.value);
+            sendMidiCC(CC_VCF_CUTOFF, ccValue);
+        });
+    }
+
+    // VCF Resonance (CC 71) Listener - NEW
+    const resonanceSlider = document.getElementById('vcf-resonance');
+    if (resonanceSlider) {
+        resonanceSlider.addEventListener('input', (event) => {
+            const ccValue = parseInt(event.target.value);
+            sendMidiCC(CC_VCF_RESONANCE, ccValue);
+        });
+    }
+
+    // Filter Env Amount (CC 47) Listener - NEW
+    const envAmountSlider = document.getElementById('vcf-env-amount');
+    if (envAmountSlider) {
+        envAmountSlider.addEventListener('input', (event) => {
+            const ccValue = parseInt(event.target.value);
+            sendMidiCC(CC_VCF_ENV_AMOUNT, ccValue);
+        });
+    }
+
+    // --- VCF ENVELOPE LISTENERS (CC 85-88) ---
+
+    // VCF Attack (CC 85) Listener - NEW
+    const vcfAttackSlider = document.getElementById('vcf-attack');
+    if (vcfAttackSlider) {
+        vcfAttackSlider.addEventListener('input', (event) => {
+            const ccValue = parseInt(event.target.value);
+            sendMidiCC(CC_VCF_ATTACK, ccValue);
+        });
+    }
+
+    // VCF Decay (CC 86) Listener - NEW
+    const vcfDecaySlider = document.getElementById('vcf-decay');
+    if (vcfDecaySlider) {
+        vcfDecaySlider.addEventListener('input', (event) => {
+            const ccValue = parseInt(event.target.value);
+            sendMidiCC(CC_VCF_DECAY, ccValue);
+        });
+    }
+
+    // VCF Sustain (CC 87) Listener - NEW
+    const vcfSustainSlider = document.getElementById('vcf-sustain');
+    if (vcfSustainSlider) {
+        vcfSustainSlider.addEventListener('input', (event) => {
+            const ccValue = parseInt(event.target.value);
+            sendMidiCC(CC_VCF_SUSTAIN, ccValue);
+        });
+    }
+    
+    // VCF Release (CC 88) Listener - NEW
+    const vcfReleaseSlider = document.getElementById('vcf-release');
+    if (vcfReleaseSlider) {
+        vcfReleaseSlider.addEventListener('input', (event) => {
+            const ccValue = parseInt(event.target.value);
+            sendMidiCC(CC_VCF_RELEASE, ccValue);
         });
     }
 }
