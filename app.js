@@ -1,21 +1,50 @@
 // Variable to store the selected MIDI output port
 let midiOutput = null;
 
-// MIDI CC numbers for parameters
-const CC_VCA_ATTACK = 81;
-const CC_VCA_DECAY = 82;
-const CC_VCA_SUSTAIN = 83;
-const CC_VCA_RELEASE = 84;
+// --- MIDI CC numbers for parameters ---
 
+// Global / Modulation
+const CC_MODULATION = 1;
+const CC_PORTAMENTO_TIME = 5;
+
+// Oscillator (OSC)
+const CC_OSC_BALANCE = 29;
+const CC_OSC1_WAVE = 24;
+const CC_OSC2_WAVE = 25;
+const CC_OSC1_COARSE = 115;
+const CC_OSC2_COARSE = 116;
+const CC_OSC1_FINE = 111;
+const CC_OSC2_FINE = 112;
+const CC_OSC1_PWM_DETUNE = 113; // PWM/Supersaw Detune/FM Feedback
+const CC_OSC2_PWM = 114;
+
+// Filter (VCF)
+const CC_VCF_CUTOFF = 74;
+const CC_VCF_RESONANCE = 71;
+const CC_VCF_ENV_AMOUNT = 47; 
 const CC_VCF_ATTACK = 85;
 const CC_VCF_DECAY = 86;
 const CC_VCF_SUSTAIN = 87;
 const CC_VCF_RELEASE = 88;
 
-const CC_VCF_CUTOFF = 74;
-const CC_VCF_RESONANCE = 71;
+// Amplifier (VCA)
+const CC_VCA_ATTACK = 81;
+const CC_VCA_DECAY = 82;
+const CC_VCA_SUSTAIN = 83;
+const CC_VCA_RELEASE = 84;
 
-const CC_VCF_ENV_AMOUNT = 47;
+// LFO
+const CC_LFO1_AMOUNT = 70;
+const CC_LFO2_AMOUNT = 28;
+const CC_LFO1_RATE = 72;
+const CC_LFO2_RATE = 73;
+const CC_LFO1_WAVE = 54;
+const CC_LFO2_WAVE = 55;
+const CC_LFO1_DEST = 56;
+
+// Ring Modulation
+const CC_RING_MOD_AMT = 95;
+const CC_RING_MOD_ONOFF = 96;
 
 // --- INITIALIZATION ---
 if (navigator.requestMIDIAccess) {
@@ -41,109 +70,70 @@ function onMIDISuccess(midiAccess) {
         connectToSelectedOutput(event.target.value, midiAccess);
     });
 
-    // 4. Attach slider listener (VCA Attack)
-    const attackSlider = document.getElementById('vca-attack');
-    if (attackSlider) {
-        // Use 'input' event for continuous updates as the user drags
-        attackSlider.addEventListener('input', (event) => {
-            const ccValue = parseInt(event.target.value);
-            // Send the CC message
-            sendMidiCC(CC_VCA_ATTACK, ccValue);
-            
-            // Optional: Update a text display of the value if you add one
-            // console.log(`Slider value: ${ccValue}`); 
-        });
-    }
-
-    // VCA Decay (CC 82) Listener - NEW
-    const decaySlider = document.getElementById('vca-decay');
-    if (decaySlider) {
-        decaySlider.addEventListener('input', (event) => {
-            const ccValue = parseInt(event.target.value);
-            sendMidiCC(CC_VCA_DECAY, ccValue);
-        });
-    }
-
-    // VCA Sustain (CC 83) Listener - NEW
-    const sustainSlider = document.getElementById('vca-sustain');
-    if (sustainSlider) {
-        sustainSlider.addEventListener('input', (event) => {
-            const ccValue = parseInt(event.target.value);
-            sendMidiCC(CC_VCA_SUSTAIN, ccValue);
-        });
-    }
+    // 4. Attach all parameter listeners
     
-    // VCA Release (CC 84) Listener - NEW
-    const releaseSlider = document.getElementById('vca-release');
-    if (releaseSlider) {
-        releaseSlider.addEventListener('input', (event) => {
-            const ccValue = parseInt(event.target.value);
-            sendMidiCC(CC_VCA_RELEASE, ccValue);
-        });
-    }
-
-    // VCF Cutoff (CC 74) Listener - NEW
-    const cutoffSlider = document.getElementById('vcf-cutoff');
-    if (cutoffSlider) {
-        cutoffSlider.addEventListener('input', (event) => {
-            const ccValue = parseInt(event.target.value);
-            sendMidiCC(CC_VCF_CUTOFF, ccValue);
-        });
-    }
-
-    // VCF Resonance (CC 71) Listener - NEW
-    const resonanceSlider = document.getElementById('vcf-resonance');
-    if (resonanceSlider) {
-        resonanceSlider.addEventListener('input', (event) => {
-            const ccValue = parseInt(event.target.value);
-            sendMidiCC(CC_VCF_RESONANCE, ccValue);
-        });
-    }
-
-    // Filter Env Amount (CC 47) Listener - NEW
-    const envAmountSlider = document.getElementById('vcf-env-amount');
-    if (envAmountSlider) {
-        envAmountSlider.addEventListener('input', (event) => {
-            const ccValue = parseInt(event.target.value);
-            sendMidiCC(CC_VCF_ENV_AMOUNT, ccValue);
-        });
-    }
-
-    // --- VCF ENVELOPE LISTENERS (CC 85-88) ---
-
-    // VCF Attack (CC 85) Listener - NEW
-    const vcfAttackSlider = document.getElementById('vcf-attack');
-    if (vcfAttackSlider) {
-        vcfAttackSlider.addEventListener('input', (event) => {
-            const ccValue = parseInt(event.target.value);
-            sendMidiCC(CC_VCF_ATTACK, ccValue);
-        });
-    }
-
-    // VCF Decay (CC 86) Listener - NEW
-    const vcfDecaySlider = document.getElementById('vcf-decay');
-    if (vcfDecaySlider) {
-        vcfDecaySlider.addEventListener('input', (event) => {
-            const ccValue = parseInt(event.target.value);
-            sendMidiCC(CC_VCF_DECAY, ccValue);
-        });
-    }
-
-    // VCF Sustain (CC 87) Listener - NEW
-    const vcfSustainSlider = document.getElementById('vcf-sustain');
-    if (vcfSustainSlider) {
-        vcfSustainSlider.addEventListener('input', (event) => {
-            const ccValue = parseInt(event.target.value);
-            sendMidiCC(CC_VCF_SUSTAIN, ccValue);
-        });
-    }
+    // Helper to attach listeners to all continuous sliders
+    const attachSliderListener = (ccNumber, elementId) => {
+        const slider = document.getElementById(elementId);
+        if (slider) {
+            slider.addEventListener('input', (event) => {
+                const ccValue = parseInt(event.target.value);
+                sendMidiCC(ccNumber, ccValue);
+            });
+        }
+    };
     
-    // VCF Release (CC 88) Listener - NEW
-    const vcfReleaseSlider = document.getElementById('vcf-release');
-    if (vcfReleaseSlider) {
-        vcfReleaseSlider.addEventListener('input', (event) => {
-            const ccValue = parseInt(event.target.value);
-            sendMidiCC(CC_VCF_RELEASE, ccValue);
+    // Global / Modulation
+    attachSliderListener(CC_MODULATION, 'mod-wheel');
+    attachSliderListener(CC_PORTAMENTO_TIME, 'portamento-time');
+
+    // Oscillator
+    attachSliderListener(CC_OSC_BALANCE, 'osc-balance');
+    attachSliderListener(CC_OSC1_WAVE, 'osc1-wave');
+    attachSliderListener(CC_OSC2_WAVE, 'osc2-wave');
+    attachSliderListener(CC_OSC1_COARSE, 'osc1-coarse');
+    attachSliderListener(CC_OSC2_COARSE, 'osc2-coarse');
+    attachSliderListener(CC_OSC1_FINE, 'osc1-fine');
+    attachSliderListener(CC_OSC2_FINE, 'osc2-fine');
+    attachSliderListener(CC_OSC1_PWM_DETUNE, 'osc1-pwm-detune');
+    attachSliderListener(CC_OSC2_PWM, 'osc2-pwm');
+
+    // Filter Main
+    attachSliderListener(CC_VCF_CUTOFF, 'vcf-cutoff');
+    attachSliderListener(CC_VCF_RESONANCE, 'vcf-resonance');
+    attachSliderListener(CC_VCF_ENV_AMOUNT, 'vcf-env-amount');
+
+    // VCF Envelope
+    attachSliderListener(CC_VCF_ATTACK, 'vcf-attack');
+    attachSliderListener(CC_VCF_DECAY, 'vcf-decay');
+    attachSliderListener(CC_VCF_SUSTAIN, 'vcf-sustain');
+    attachSliderListener(CC_VCF_RELEASE, 'vcf-release');
+    
+    // VCA Envelope
+    attachSliderListener(CC_VCA_ATTACK, 'vca-attack');
+    attachSliderListener(CC_VCA_DECAY, 'vca-decay');
+    attachSliderListener(CC_VCA_SUSTAIN, 'vca-sustain');
+    attachSliderListener(CC_VCA_RELEASE, 'vca-release');
+
+    // LFO
+    attachSliderListener(CC_LFO1_AMOUNT, 'lfo1-amount');
+    attachSliderListener(CC_LFO2_AMOUNT, 'lfo2-amount');
+    attachSliderListener(CC_LFO1_RATE, 'lfo1-rate');
+    attachSliderListener(CC_LFO2_RATE, 'lfo2-rate');
+    attachSliderListener(CC_LFO1_WAVE, 'lfo1-wave');
+    attachSliderListener(CC_LFO2_WAVE, 'lfo2-wave');
+    attachSliderListener(CC_LFO1_DEST, 'lfo1-dest');
+
+    // Ring Modulation Amount
+    attachSliderListener(CC_RING_MOD_AMT, 'ring-mod-amount');
+
+    // Ring Modulation ON/OFF (CC 96) - Special Checkbox Listener
+    const ringModOnOff = document.getElementById('ring-mod-onoff');
+    if (ringModOnOff) {
+        ringModOnOff.addEventListener('change', (event) => {
+            // Send 127 if checked (on), 0 if unchecked (off)
+            const ccValue = event.target.checked ? 127 : 0;
+            sendMidiCC(CC_RING_MOD_ONOFF, ccValue);
         });
     }
 }
@@ -151,9 +141,8 @@ function onMIDISuccess(midiAccess) {
 // --- HELPER FUNCTION: POPULATE DROPDOWN ---
 function populateOutputDevices(midiAccess) {
     const select = document.getElementById('midi-output-select');
-    // Save the current selection (if any) to re-select it after refreshing
     const currentId = select.value; 
-    select.innerHTML = ''; // Clear previous options
+    select.innerHTML = ''; 
 
     if (midiAccess.outputs.size === 0) {
         select.innerHTML = '<option value="">-- No Devices Found --</option>';
@@ -168,14 +157,12 @@ function populateOutputDevices(midiAccess) {
         option.textContent = output.name;
         select.appendChild(option);
 
-        // Check if this port matches the previous selection OR if it's the JT-4000M
         if (output.id === currentId || output.name.includes("JT-4000M")) {
             option.selected = true;
             foundSelection = true;
         }
     });
 
-    // Connect to the selected/first port automatically on load/refresh
     connectToSelectedOutput(select.value, midiAccess);
 }
 
@@ -184,18 +171,15 @@ function connectToSelectedOutput(portId, midiAccess) {
     if (portId) {
         midiOutput = midiAccess.outputs.get(portId);
         console.log(`Now connected to: ${midiOutput.name}`);
-        // Consider enabling UI elements here if you want them disabled when disconnected
     } else {
         midiOutput = null;
         console.log("No valid MIDI output selected.");
-        // Consider disabling UI elements here
     }
 }
 
 // --- HELPER FUNCTION: SEND MIDI CC ---
 function sendMidiCC(ccNumber, value) {
     if (midiOutput) {
-        // MIDI CC format for Channel 1 Control Change: [0xB0, CC number, value]
         const midiMessage = [0xB0, ccNumber, value];
         midiOutput.send(midiMessage);
         console.log(`Sent CC ${ccNumber} with value ${value}`);
@@ -203,6 +187,3 @@ function sendMidiCC(ccNumber, value) {
         console.log("MIDI output device not selected. Cannot send message.");
     }
 }
-
-// --- REMOVED/DEPRECATED: Old updateDevices function is replaced by logic in onMIDISuccess/populateOutputDevices.
-// function updateDevices(event) { ... }

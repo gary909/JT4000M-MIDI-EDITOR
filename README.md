@@ -33,3 +33,9 @@ _____________________________________________
 Added more controls:
 
 ![full VCA ENV now available](media/updatedCntrl.png)
+
+_____________________________________________
+
+All available MIDI controls now added:
+
+![all midi controls now available](media/AllMIDIcomplete.png)
