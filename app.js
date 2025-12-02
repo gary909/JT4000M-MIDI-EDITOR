@@ -3,6 +3,7 @@ let midiOutput = null;
 
 // MIDI CC numbers for parameters
 const CC_VCA_ATTACK = 81;
+const CC_VCA_DECAY = 82;
 
 // --- INITIALIZATION ---
 if (navigator.requestMIDIAccess) {
@@ -29,16 +30,25 @@ function onMIDISuccess(midiAccess) {
     });
 
     // 4. Attach slider listener (VCA Attack)
-    const slider = document.getElementById('vca-attack');
-    if (slider) {
+    const attackSlider = document.getElementById('vca-attack');
+    if (attackSlider) {
         // Use 'input' event for continuous updates as the user drags
-        slider.addEventListener('input', (event) => {
+        attackSlider.addEventListener('input', (event) => {
             const ccValue = parseInt(event.target.value);
             // Send the CC message
             sendMidiCC(CC_VCA_ATTACK, ccValue);
             
             // Optional: Update a text display of the value if you add one
             // console.log(`Slider value: ${ccValue}`); 
+        });
+    }
+
+    // VCA Decay (CC 82) Listener - NEW
+    const decaySlider = document.getElementById('vca-decay');
+    if (decaySlider) {
+        decaySlider.addEventListener('input', (event) => {
+            const ccValue = parseInt(event.target.value);
+            sendMidiCC(CC_VCA_DECAY, ccValue);
         });
     }
 }
