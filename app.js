@@ -1,64 +1,97 @@
 // Variable to store the selected MIDI output port
-let midiOutput = null; 
+let midiOutput = null;
 
 // MIDI CC numbers for parameters
 const CC_VCA_ATTACK = 81;
 
-// initially check for midi access
-if (navigator.requestMIDIAccess){
+// --- INITIALIZATION ---
+if (navigator.requestMIDIAccess) {
     navigator.requestMIDIAccess().then(onMIDISuccess, onMIDIFailure);
 }
 
-// if no midi access failure:
-function onMIDIFailure(){
+// --- FAILURE HANDLER ---
+function onMIDIFailure() {
     console.log("Could not access your MIDI devices.");
-    // Display error message on the page
     document.body.innerHTML += '<p style="color: red;">ERROR: Could not access your MIDI devices. Check permissions and connections.</p>';
 }
 
-// if midi success:
-function onMIDISuccess(midiAccess){
-    // console.log(midiAccess);
-    midiAccess.addEventListener('statechange', updateDevices);
-
-    const outputs = midiAccess.outputs; // Use outputs to send data
-    console.log(outputs);
-
-    // --- MIDI OUTPUT SELECTION ---
-    // You'll need to find your JT-4000M's port. This selects the first available port.
-    // **NOTE:** For production, you should let the user select the port by name!
-    if (outputs.size > 0) {
-        // Get the first output device.
-        midiOutput = outputs.values().next().value;
-        console.log(`Selected MIDI output: ${midiOutput.name}`);
-
-        // --- ATTACH SLIDER LISTENER ---
-        const slider = document.getElementById('vca-attack');
-        if (slider) {
-            // Use 'input' event for continuous updates as the user drags
-            slider.addEventListener('input', (event) => {
-                const ccValue = parseInt(event.target.value);
-                sendMidiCC(CC_VCA_ATTACK, ccValue);
-            });
-        }
-    } else {
-        console.log("No MIDI output devices found.");
-    }
+// --- SUCCESS HANDLER (MAIN LOGIC) ---
+function onMIDISuccess(midiAccess) {
+    // 1. Initialize the MIDI Output list on load
+    populateOutputDevices(midiAccess);
     
-    // Original input logging (can be removed later)
-    const inputs = midiAccess.inputs;
-    inputs.forEach((input) => {
-        // console.log(input);
+    // 2. Add listeners for device hot-plugging
+    midiAccess.addEventListener('statechange', () => populateOutputDevices(midiAccess));
+
+    // 3. Add event listener to the dropdown for user selection
+    document.getElementById('midi-output-select').addEventListener('change', (event) => {
+        connectToSelectedOutput(event.target.value, midiAccess);
     });
+
+    // 4. Attach slider listener (VCA Attack)
+    const slider = document.getElementById('vca-attack');
+    if (slider) {
+        // Use 'input' event for continuous updates as the user drags
+        slider.addEventListener('input', (event) => {
+            const ccValue = parseInt(event.target.value);
+            // Send the CC message
+            sendMidiCC(CC_VCA_ATTACK, ccValue);
+            
+            // Optional: Update a text display of the value if you add one
+            // console.log(`Slider value: ${ccValue}`); 
+        });
+    }
 }
 
-// Function to send a MIDI CC message
+// --- HELPER FUNCTION: POPULATE DROPDOWN ---
+function populateOutputDevices(midiAccess) {
+    const select = document.getElementById('midi-output-select');
+    // Save the current selection (if any) to re-select it after refreshing
+    const currentId = select.value; 
+    select.innerHTML = ''; // Clear previous options
+
+    if (midiAccess.outputs.size === 0) {
+        select.innerHTML = '<option value="">-- No Devices Found --</option>';
+        midiOutput = null;
+        return;
+    }
+
+    let foundSelection = false;
+    midiAccess.outputs.forEach((output) => {
+        const option = document.createElement('option');
+        option.value = output.id;
+        option.textContent = output.name;
+        select.appendChild(option);
+
+        // Check if this port matches the previous selection OR if it's the JT-4000M
+        if (output.id === currentId || output.name.includes("JT-4000M")) {
+            option.selected = true;
+            foundSelection = true;
+        }
+    });
+
+    // Connect to the selected/first port automatically on load/refresh
+    connectToSelectedOutput(select.value, midiAccess);
+}
+
+// --- HELPER FUNCTION: HANDLE CONNECTION ---
+function connectToSelectedOutput(portId, midiAccess) {
+    if (portId) {
+        midiOutput = midiAccess.outputs.get(portId);
+        console.log(`Now connected to: ${midiOutput.name}`);
+        // Consider enabling UI elements here if you want them disabled when disconnected
+    } else {
+        midiOutput = null;
+        console.log("No valid MIDI output selected.");
+        // Consider disabling UI elements here
+    }
+}
+
+// --- HELPER FUNCTION: SEND MIDI CC ---
 function sendMidiCC(ccNumber, value) {
     if (midiOutput) {
-        // MIDI CC message format:
-        // [176 + channel, CC number, value]
-        // 176 (0xB0 in hex) is the status byte for Channel 1 Control Change
-        const midiMessage = [0xB0, ccNumber, value]; 
+        // MIDI CC format for Channel 1 Control Change: [0xB0, CC number, value]
+        const midiMessage = [0xB0, ccNumber, value];
         midiOutput.send(midiMessage);
         console.log(`Sent CC ${ccNumber} with value ${value}`);
     } else {
@@ -66,8 +99,5 @@ function sendMidiCC(ccNumber, value) {
     }
 }
 
-
-function updateDevices(event){
-    // console.log(event);
-    console.log(`Name: ${event.port.name}, Brand: ${event.port.manufacturer}, State: ${event.port.state}, Type: ${event.port.type}`);
-}
+// --- REMOVED/DEPRECATED: Old updateDevices function is replaced by logic in onMIDISuccess/populateOutputDevices.
+// function updateDevices(event) { ... }

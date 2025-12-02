@@ -7,8 +7,16 @@
     <title>JT-4000M MIDI Editor</title>
 </head>
 <body>
-    <h1>Welcome to the JT-4000M MIDI Editor</h1>
-    <p>This application allows you to edit MIDI files for the JT-4000M synthesizer.</p>
+    <h1>JT-4000M MIDI Editor</h1>
+    
+    <div id="midi-status">
+        <label for="midi-output-select">Select MIDI Device:</label>
+        <select id="midi-output-select">
+            <option value="">-- No Devices Found --</option>
+        </select>
+    </div>
+
+    <br><br>
 
     <div id="controls">
         <label for="vca-attack">VCA EG Attack (CC 81):</label>
