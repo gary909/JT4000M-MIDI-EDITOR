@@ -10,12 +10,20 @@ Browser is detecting MIDI from JT4000:
 
 ![Browser connected to MIDI](media/midiBrowser.png)
 
+_____________________________________________
 
-We can now control the Attack Envelope via the browser :-)
+We can now control the Attack Envelope via the browser:
 
 ![Browser controlled attack](media/attackExampleGif.gif)
 
+_____________________________________________
 
 User can now select correct MIDI device (helpful if using more than one):
 
 ![User can select MIDI Device](media/userSelectDevice.gif)
+
+_____________________________________________
+
+full VCA ENV now available:
+
+![full VCA ENV now available](media/fullVCA.png)

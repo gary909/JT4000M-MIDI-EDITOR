@@ -4,6 +4,8 @@ let midiOutput = null;
 // MIDI CC numbers for parameters
 const CC_VCA_ATTACK = 81;
 const CC_VCA_DECAY = 82;
+const CC_VCA_SUSTAIN = 83;
+const CC_VCA_RELEASE = 84;
 
 // --- INITIALIZATION ---
 if (navigator.requestMIDIAccess) {
@@ -49,6 +51,24 @@ function onMIDISuccess(midiAccess) {
         decaySlider.addEventListener('input', (event) => {
             const ccValue = parseInt(event.target.value);
             sendMidiCC(CC_VCA_DECAY, ccValue);
+        });
+    }
+
+    // VCA Sustain (CC 83) Listener - NEW
+    const sustainSlider = document.getElementById('vca-sustain');
+    if (sustainSlider) {
+        sustainSlider.addEventListener('input', (event) => {
+            const ccValue = parseInt(event.target.value);
+            sendMidiCC(CC_VCA_SUSTAIN, ccValue);
+        });
+    }
+    
+    // VCA Release (CC 84) Listener - NEW
+    const releaseSlider = document.getElementById('vca-release');
+    if (releaseSlider) {
+        releaseSlider.addEventListener('input', (event) => {
+            const ccValue = parseInt(event.target.value);
+            sendMidiCC(CC_VCA_RELEASE, ccValue);
         });
     }
 }
