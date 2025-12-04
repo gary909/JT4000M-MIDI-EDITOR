@@ -1,6 +1,9 @@
 body {
   background-color: #36436A;
   font-family: Helvetica, sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 h1 {
@@ -9,6 +12,7 @@ h1 {
 
 h2, h3 {
   color: #EBA85B;
+  text-align: center;
 }
 
 label {
@@ -19,13 +23,38 @@ p {
   color: #ebe1d7;
 }
 
+#controls {
+    display: flex; /* Turn the container into a flex container */
+    flex-wrap: wrap; /* Allow boxes to wrap to the next line if the screen is too narrow */
+    justify-content: center; /* Center the boxes horizontally */
+    max-width: 1200px; /* Optional: Limit the total width of the synth panel */
+    padding: 10px;
+}
+
 .control-box {
-    background-color: #2F291B;
-    border: 1px solid #201c13;
+    background-color: #36436A;
+    border: 10px solid #313236;
+    /* background-color: #2F291B; */
+    /* border: 1px solid #201c13; */
     padding: 10px;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     min-width: 200px;
-    max-width: 400px;
     margin: 10px;
+}
+
+.parameter-row {
+    display: flex;
+    justify-content: space-between; /* This pushes the label to the left and the slider to the right */
+    align-items: center; /* Vertically aligns the label and slider */
+    margin-bottom: 8px; /* Adds space between rows of parameters */
+}
+
+/* Optional: Adjust slider width to fit better next to the label */
+input[type="range"] {
+    width: 120px; 
+}
+
+.slider-on-right {
+  position: absolute; /* Takes slider out of normal flow */
 }

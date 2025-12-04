@@ -22,16 +22,19 @@
     <div id="controls">
         
         <div class="control-box"> 
-        <h3>Global / Modulation</h3>
-        
-        <label for="mod-wheel">Modulation Wheel (CC 1):</label>
-        <input type="range" id="mod-wheel" min="0" max="127" value="0">
-        <br>
+            <h3>Global / Modulation</h3>
+            
+            <div class="parameter-row">
+                <label for="mod-wheel">MODULATION (LFO 2)</label>
+                <input type="range" id="mod-wheel" min="0" max="127" value="0">
+                <br>
+            </div>
 
-
-        <label for="portamento-time">Portamento Time (CC 5):</label>
-        <input type="range" id="portamento-time" min="0" max="127" value="0">
-        <br><br>
+            <div class="parameter-row">
+                <label for="portamento-time">PORTAMENTO</label>
+                <input type="range" id="portamento-time" min="0" max="127" value="0">
+                <br>
+            </div>
         </div>
 
         <div class="control-box"> 
@@ -119,15 +122,15 @@
 
             <h3>VCF Filter Main Parameters</h3>
     
-            <label for="vcf-cutoff">Filter Cutoff (CC 74):</label>
+            <label for="vcf-cutoff">CUTOFF FREQUENCY</label>
             <input type="range" id="vcf-cutoff" min="0" max="127" value="80">
             <br>
     
-            <label for="vcf-resonance">Filter Resonance (CC 71):</label>
+            <label for="vcf-resonance">RESONANCE</label>
             <input type="range" id="vcf-resonance" min="0" max="127" value="10">
             <br>
     
-            <label for="vcf-env-amount">Filter Env Amount (CC 47):</label>
+            <label for="vcf-env-amount">ENV DEPTH</label>
             <input type="range" id="vcf-env-amount" min="0" max="127" value="64">
             <br><br>
         </div>
