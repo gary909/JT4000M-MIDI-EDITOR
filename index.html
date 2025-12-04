@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
     <script src="app.js" async></script>
     <title>JT-4000M MIDI Editor</title>
 </head>
@@ -20,133 +21,153 @@
 
     <div id="controls">
         
-        <h2>Global / Modulation</h2>
+        <div class="control-box"> 
+        <h3>Global / Modulation</h3>
         
         <label for="mod-wheel">Modulation Wheel (CC 1):</label>
         <input type="range" id="mod-wheel" min="0" max="127" value="0">
         <br>
 
+
         <label for="portamento-time">Portamento Time (CC 5):</label>
         <input type="range" id="portamento-time" min="0" max="127" value="0">
-        <br><br><br>
+        <br><br>
+        </div>
 
-        <h2>Oscillators</h2>
+        <div class="control-box"> 
+            <h3>Oscillators</h3>
+            <label for="osc-balance">Oscillator Balance (CC 29):</label>
+            <input type="range" id="osc-balance" min="0" max="127" value="64">
+            <br><br>
+        </div>        
 
-        <label for="osc-balance">Oscillator Balance (CC 29):</label>
-        <input type="range" id="osc-balance" min="0" max="127" value="64">
-        <br>
+        <div class="control-box">            
+            <h3>OSC 1</h3>
+            <label for="osc1-wave">Waveform (CC 24):</label>
+            <input type="range" id="osc1-wave" min="0" max="127" value="0">
+            <br>
+            <label for="osc1-coarse">Coarse Tune (CC 115):</label>
+            <input type="range" id="osc1-coarse" min="0" max="127" value="64">
+            <br>
+            <label for="osc1-fine">Fine Tune (CC 111):</label>
+            <input type="range" id="osc1-fine" min="0" max="127" value="64">
+            <br>
+            <label for="osc1-pwm-detune">PWM/Detune/FM (CC 113):</label>
+            <input type="range" id="osc1-pwm-detune" min="0" max="127" value="0">
+            <br><br>
+        </div>
 
-        <h3>OSC 1</h3>
-        <label for="osc1-wave">Waveform (CC 24):</label>
-        <input type="range" id="osc1-wave" min="0" max="127" value="0">
-        <br>
-        <label for="osc1-coarse">Coarse Tune (CC 115):</label>
-        <input type="range" id="osc1-coarse" min="0" max="127" value="64">
-        <br>
-        <label for="osc1-fine">Fine Tune (CC 111):</label>
-        <input type="range" id="osc1-fine" min="0" max="127" value="64">
-        <br>
-        <label for="osc1-pwm-detune">PWM/Detune/FM (CC 113):</label>
-        <input type="range" id="osc1-pwm-detune" min="0" max="127" value="0">
-        <br>
+        <div class="control-box">
+            <h3>OSC 2</h3>
+            <label for="osc2-wave">Waveform (CC 25):</label>
+            <input type="range" id="osc2-wave" min="0" max="127" value="0">
+            <br>
+            <label for="osc2-coarse">Coarse Tune (CC 116):</label>
+            <input type="range" id="osc2-coarse" min="0" max="127" value="64">
+            <br>
+            <label for="osc2-fine">Fine Tune (CC 112):</label>
+            <input type="range" id="osc2-fine" min="0" max="127" value="64">
+            <br>
+            <label for="osc2-pwm">PWM (CC 114):</label>
+            <input type="range" id="osc2-pwm" min="0" max="127" value="0">
+            <br><br>
+        </div>
 
-        <h3>OSC 2</h3>
-        <label for="osc2-wave">Waveform (CC 25):</label>
-        <input type="range" id="osc2-wave" min="0" max="127" value="0">
-        <br>
-        <label for="osc2-coarse">Coarse Tune (CC 116):</label>
-        <input type="range" id="osc2-coarse" min="0" max="127" value="64">
-        <br>
-        <label for="osc2-fine">Fine Tune (CC 112):</label>
-        <input type="range" id="osc2-fine" min="0" max="127" value="64">
-        <br>
-        <label for="osc2-pwm">PWM (CC 114):</label>
-        <input type="range" id="osc2-pwm" min="0" max="127" value="0">
-        <br><br><br>
+        <div class="control-box">
+            <h3>RING MODULATION</h3>
 
-        <h2>Ring Modulation</h2>
+            <label for="ring-mod-onoff">ON/OFF</label>
+            <input type="checkbox" id="ring-mod-onoff">
+            <br>
+            <label for="ring-mod-amount">AMOUNT</label>
+            <input type="range" id="ring-mod-amount" min="0" max="127" value="0">
+            <br> <br>
+        </div>
         
-        <label for="ring-mod-onoff">Ring Mod On/Off (CC 96):</label>
-        <input type="checkbox" id="ring-mod-onoff">
-        <br>
-        <label for="ring-mod-amount">Ring Mod Amount (CC 95):</label>
-        <input type="range" id="ring-mod-amount" min="0" max="127" value="0">
-        <br><br><br>
 
-        <h2>LFOs</h2>
-
-        <h3>LFO 1</h3>
-        <label for="lfo1-amount">Amount (CC 70):</label>
-        <input type="range" id="lfo1-amount" min="0" max="127" value="0">
-        <br>
-        <label for="lfo1-rate">Rate (CC 72):</label>
-        <input type="range" id="lfo1-rate" min="0" max="127" value="64">
-        <br>
-        <label for="lfo1-wave">Waveform (CC 54):</label>
-        <input type="range" id="lfo1-wave" min="0" max="127" value="0">
-        <br>
-        <label for="lfo1-dest">Destination (CC 56):</label>
-        <input type="range" id="lfo1-dest" min="0" max="127" value="0">
-        <br>
-
-        <h3>LFO 2</h3>
-        <label for="lfo2-amount">Amount (CC 28):</label>
-        <input type="range" id="lfo2-amount" min="0" max="127" value="0">
-        <br>
-        <label for="lfo2-rate">Rate (CC 73):</label>
-        <input type="range" id="lfo2-rate" min="0" max="127" value="64">
-        <br>
-        <label for="lfo2-wave">Waveform (CC 55):</label>
-        <input type="range" id="lfo2-wave" min="0" max="127" value="0">
-        <br><br><br>
         
-        <h2>VCF Filter Main Parameters</h2>
+        <div class="control-box">
+            <h3>LFO 1</h3>
+            <label for="lfo1-amount">Amount (CC 70):</label>
+            <input type="range" id="lfo1-amount" min="0" max="127" value="0">
+            <br>
+            <label for="lfo1-rate">Rate (CC 72):</label>
+            <input type="range" id="lfo1-rate" min="0" max="127" value="64">
+            <br>
+            <label for="lfo1-wave">Waveform (CC 54):</label>
+            <input type="range" id="lfo1-wave" min="0" max="127" value="0">
+            <br>
+            <label for="lfo1-dest">Destination (CC 56):</label>
+            <input type="range" id="lfo1-dest" min="0" max="127" value="0">
+            <br><br>
+        </div>
 
-        <label for="vcf-cutoff">Filter Cutoff (CC 74):</label>
-        <input type="range" id="vcf-cutoff" min="0" max="127" value="80">
-        <br>
-
-        <label for="vcf-resonance">Filter Resonance (CC 71):</label>
-        <input type="range" id="vcf-resonance" min="0" max="127" value="10">
-        <br>
-
-        <label for="vcf-env-amount">Filter Env Amount (CC 47):</label>
-        <input type="range" id="vcf-env-amount" min="0" max="127" value="64">
-        <br><br><br>
-
-        <h2>VCF Envelope (Filter)</h2>
-        <label for="vcf-attack">VCF EG Attack (CC 85):</label>
-        <input type="range" id="vcf-attack" min="0" max="127" value="64">
-        <br>
-
-        <label for="vcf-decay">VCF EG Decay (CC 86):</label>
-        <input type="range" id="vcf-decay" min="0" max="127" value="64">
-        <br>
-
-        <label for="vcf-sustain">VCF EG Sustain (CC 87):</label>
-        <input type="range" id="vcf-sustain" min="0" max="127" value="100">
-        <br>
-
-        <label for="vcf-release">VCF EG Release (CC 88):</label>
-        <input type="range" id="vcf-release" min="0" max="127" value="64">
-        <br><br><br>
-
-        <h2>VCA Envelope (Volume)</h2>
-        <label for="vca-attack">VCA EG Attack (CC 81):</label>
-        <input type="range" id="vca-attack" min="0" max="127" value="64">
-        <br>
-
-        <label for="vca-decay">VCA EG Decay (CC 82):</label>
-        <input type="range" id="vca-decay" min="0" max="127" value="64">
-        <br>
-
-        <label for="vca-sustain">VCA EG Sustain (CC 83):</label>
-        <input type="range" id="vca-sustain" min="0" max="127" value="100">
-        <br>
-
-        <label for="vca-release">VCA EG Release (CC 84):</label>
-        <input type="range" id="vca-release" min="0" max="127" value="64">
+        <div class="control-box">
+            <h3>LFO 2</h3>
+            <label for="lfo2-amount">Amount (CC 28):</label>
+            <input type="range" id="lfo2-amount" min="0" max="127" value="0">
+            <br>
+            <label for="lfo2-rate">Rate (CC 73):</label>
+            <input type="range" id="lfo2-rate" min="0" max="127" value="64">
+            <br>
+            <label for="lfo2-wave">Waveform (CC 55):</label>
+            <input type="range" id="lfo2-wave" min="0" max="127" value="0">
+            <br><br>
+        </div>
         
+        <div class="control-box">
+
+            <h3>VCF Filter Main Parameters</h3>
+    
+            <label for="vcf-cutoff">Filter Cutoff (CC 74):</label>
+            <input type="range" id="vcf-cutoff" min="0" max="127" value="80">
+            <br>
+    
+            <label for="vcf-resonance">Filter Resonance (CC 71):</label>
+            <input type="range" id="vcf-resonance" min="0" max="127" value="10">
+            <br>
+    
+            <label for="vcf-env-amount">Filter Env Amount (CC 47):</label>
+            <input type="range" id="vcf-env-amount" min="0" max="127" value="64">
+            <br><br>
+        </div>
+
+        <div class="control-box">
+            <h3>VCF Envelope (Filter)</h3>
+            <label for="vcf-attack">VCF EG Attack (CC 85):</label>
+            <input type="range" id="vcf-attack" min="0" max="127" value="64">
+            <br>
+            <label for="vcf-decay">VCF EG Decay (CC 86):</label>
+            <input type="range" id="vcf-decay" min="0" max="127" value="64">
+            <br>
+    
+            <label for="vcf-sustain">VCF EG Sustain (CC 87):</label>
+            <input type="range" id="vcf-sustain" min="0" max="127" value="100">
+            <br>
+    
+            <label for="vcf-release">VCF EG Release (CC 88):</label>
+            <input type="range" id="vcf-release" min="0" max="127" value="64">
+            <br><br>
+        </div>
+
+        <div class="control-box">
+            <h3>VCA Envelope (Volume)</h3>
+            <label for="vca-attack">VCA EG Attack (CC 81):</label>
+            <input type="range" id="vca-attack" min="0" max="127" value="64">
+            <br>
+    
+            <label for="vca-decay">VCA EG Decay (CC 82):</label>
+            <input type="range" id="vca-decay" min="0" max="127" value="64">
+            <br>
+    
+            <label for="vca-sustain">VCA EG Sustain (CC 83):</label>
+            <input type="range" id="vca-sustain" min="0" max="127" value="100">
+            <br>
+    
+            <label for="vca-release">VCA EG Release (CC 84):</label>
+            <input type="range" id="vca-release" min="0" max="127" value="64">
+        </div>
+
     </div>
     
 </body>

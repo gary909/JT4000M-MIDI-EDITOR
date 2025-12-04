@@ -1,0 +1,31 @@
+body {
+  background-color: #36436A;
+  font-family: Helvetica, sans-serif;
+}
+
+h1 {
+  color: #D4CABF;
+}
+
+h2, h3 {
+  color: #EBA85B;
+}
+
+label {
+  color: #ebe1d7; /* Use a light gray color for good contrast with a dark background */
+}
+
+p {
+  color: #ebe1d7;
+}
+
+.control-box {
+    background-color: #2F291B;
+    border: 1px solid #201c13;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    min-width: 200px;
+    max-width: 400px;
+    margin: 10px;
+}
