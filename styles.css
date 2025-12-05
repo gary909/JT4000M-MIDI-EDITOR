@@ -1,5 +1,12 @@
+html {
+  height: 100%;
+}
+
 body {
   background-color: #36436A;
+  box-shadow: inset 0 0 25px 10px rgba(0, 0, 0, 0.4);
+  min-height: 100vh;
+  margin: 0;
   font-family: Helvetica, sans-serif;
   display: flex;
   flex-direction: column;
@@ -17,6 +24,7 @@ h2, h3 {
 
 label {
   color: #ebe1d7; /* Use a light gray color for good contrast with a dark background */
+  font-size: 10px;
 }
 
 p {
@@ -27,20 +35,28 @@ p {
     display: flex; /* Turn the container into a flex container */
     flex-wrap: wrap; /* Allow boxes to wrap to the next line if the screen is too narrow */
     justify-content: center; /* Center the boxes horizontally */
-    max-width: 1200px; /* Optional: Limit the total width of the synth panel */
+    max-width: 1280px; /* Optional: Limit the total width of the synth panel */
     padding: 10px;
 }
 
 .control-box {
     background-color: #36436A;
-    border: 10px solid #313236;
+    border: 5px solid #313236;
     /* background-color: #2F291B; */
     /* border: 1px solid #201c13; */
     padding: 10px;
     border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2), inset 0 0 10px 1px rgba(0, 0, 0, 0.1);
     min-width: 200px;
     margin: 10px;
+}
+
+/* Reduce top margin for headers inside control boxes to minimize the gap */
+.control-box h3 {
+    margin-top: 0;
+    margin-bottom: 12px; /* Slightly reduce the bottom margin as well */
+    background-color: #313236;
 }
 
 .parameter-row {
