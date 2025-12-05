@@ -54,3 +54,53 @@ p {
 input[type="range"] {
     width: 120px; 
 }
+
+
+/* --- Tooltip Styling --- */
+
+/* Parent container: Must be relative for the tooltiptext to be positioned correctly */
+.tooltip {
+    position: relative;
+    display: inline-block; /* Allows it to sit nicely within the parameter-row */
+    cursor: help; /* Change cursor to indicate hoverable info */
+}
+
+/* Tooltip text bubble style */
+.tooltip .tooltiptext {
+    visibility: hidden; /* Hide by default */
+    width:max-content; /* Set a width for the pop-up box */
+    background-color: #201c13; /* Dark background for the tip */
+    color: #fff; /* White text */
+    text-align: left;
+    border-radius: 6px;
+    padding: 5px 5px;
+    
+    /* Position the tooltip */
+    position: absolute;
+    z-index: 10; /* Ensure it stays on top of other elements */
+    bottom: 100%; /* Position above the label */
+    right: 100%;
+    margin-left: 10px; /* Center the box (half of the width) */
+    
+    /* Smooth transition for fade-in effect */
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+/* Tooltip Arrow (Optional, but adds a nice touch) */
+.tooltip .tooltiptext::after {
+    content: "";
+    position: absolute;
+    bottom: 0%;
+    left: -10%;
+    /* margin-left: -5px; */
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent transparent transparent #201c1300;
+}
+
+/* Show the tooltip text when you hover over the parent .tooltip container */
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+    opacity: 1;
+}
