@@ -54,7 +54,3 @@ p {
 input[type="range"] {
     width: 120px; 
 }
-
-.slider-on-right {
-  position: absolute; /* Takes slider out of normal flow */
-}
