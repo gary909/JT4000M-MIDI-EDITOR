@@ -58,6 +58,7 @@ p {
     /* max-width: 1280px; */
     /* width: 100%; */
     text-align: left; /* Aligns H1/H2 text to the left */
+    margin-left: 10px;
     /* margin-bottom: 20px; */
 }
 
@@ -183,3 +184,5 @@ input[type="range"] {
 #midi-status label {
     margin-bottom: 8px; /* Adds 8 pixels of space below the label */
 }
+
+
