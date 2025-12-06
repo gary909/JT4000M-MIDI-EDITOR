@@ -5,21 +5,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=VT323&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Orbitron&family=VT323&display=swap">
+    <!-- <link href="https://fonts.googleapis.com/css2?family=Tourney:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet"> -->
     <script src="app.js" async></script>
     <title>JT-4000M MIDI Editor</title>
 </head>
 <body>
-    <h1>JT-4000M MIDI Editor</h1>
-    
-    <div id="midi-status">
-        <label for="midi-output-select">SELECT MIDI DEVICE</label>
-        <select id="midi-output-select">
-            <option value="">-- No Devices Found --</option>
-        </select>
+    <div id="main-header">
+        <div id="header-block">
+            <h1>JT-4000M</h1>
+            <h2>MIDI EDITOR</h2>
+        </div>
+        
+        
+        <div id="midi-status">
+            <label for="midi-output-select">SELECT MIDI DEVICE</label>
+            <select id="midi-output-select">
+                <option value="">-- No Devices Found --</option>
+            </select>
+        </div>
+
+        <div id="header-spacer"></div>
     </div>
-
-    <br><br>
-
+    
     <div id="controls">
         
         <div class="control-box"> 
@@ -237,7 +245,7 @@
         
         <div class="control-box">
 
-            <h3>Filter</h3>
+            <h3>FILTER</h3>
     
             <div class="parameter-row">
                 <div class="tooltip">

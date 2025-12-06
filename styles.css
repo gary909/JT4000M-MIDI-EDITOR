@@ -15,9 +15,21 @@ body {
 
 h1 {
   color: #D4CABF;
+  font-family: 'Orbitron', sans-serif;
+  /* font-family: 'Tourney', sans-serif; */
+  font-size: 40px;
+  margin-bottom: -10px; /* Pull H2 closer to H1 */
 }
 
-h2, h3 {
+h2 {
+  color: #EBA85B;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 37px;
+  margin-top: 0; /* Eliminate default top margin */
+  margin-bottom: 0;
+}
+
+h3 {
   color: #EBA85B;
   text-align: center;
 }
@@ -29,6 +41,30 @@ label {
 
 p {
   color: #ebe1d7;
+}
+
+#main-header {
+    display: flex;
+    justify-content: space-around;
+    align-items: center; 
+    max-width: 1280px; /* Ensures it matches the width of your control boxes */
+    width: 100%;
+    margin-bottom: 10px;
+    padding: 0 10px; /* Matches padding on #controls for alignment */
+    box-sizing: border-box;
+}
+
+#header-block {  /* The main title */
+    /* max-width: 1280px; */
+    /* width: 100%; */
+    text-align: left; /* Aligns H1/H2 text to the left */
+    /* margin-bottom: 20px; */
+}
+
+/* The header block and the spacer need an explicit width for centering */
+#header-block, #header-spacer {
+    width: 300px; /* This width must be wide enough for your titles */
+    flex-shrink: 0;
 }
 
 #controls {
@@ -130,6 +166,7 @@ input[type="range"] {
     font-family: 'VT323', monospace;
     font-size: 1.2em; /* Increase font size for better visibility with VT323 */
     border: 5px solid #313236; /* Add a border matching the font color */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2), inset 0 0 10px 1px rgba(0, 0, 0, 0.1);
     padding: 5px;
     border-radius: 5px;
 }
@@ -139,7 +176,7 @@ input[type="range"] {
     display: flex;
     flex-direction: column; /* Stack the label and select box vertically */
     align-items: center; /* Center the stacked items horizontally */
-    margin-bottom: 20px; /* Add space below the whole status block */
+    /* margin: 0 auto; */
 }
 
 /* Add space below the label within the MIDI status block */
