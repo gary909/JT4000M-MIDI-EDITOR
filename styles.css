@@ -120,3 +120,29 @@ input[type="range"] {
     visibility: visible;
     opacity: 1;
 }
+
+/* --- End of Tooltip Styling --- */
+
+/* Styling for the MIDI output selection box */
+#midi-output-select {
+    background-color: #514109;
+    color: #B3B953;
+    font-family: 'VT323', monospace;
+    font-size: 1.2em; /* Increase font size for better visibility with VT323 */
+    border: 5px solid #313236; /* Add a border matching the font color */
+    padding: 5px;
+    border-radius: 5px;
+}
+
+/* Centering the MIDI device selection */
+#midi-status {
+    display: flex;
+    flex-direction: column; /* Stack the label and select box vertically */
+    align-items: center; /* Center the stacked items horizontally */
+    margin-bottom: 20px; /* Add space below the whole status block */
+}
+
+/* Add space below the label within the MIDI status block */
+#midi-status label {
+    margin-bottom: 8px; /* Adds 8 pixels of space below the label */
+}
