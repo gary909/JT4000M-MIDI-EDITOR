@@ -46,9 +46,8 @@ const CC_LFO1_DEST = 56;
 const CC_RING_MOD_AMT = 95;
 const CC_RING_MOD_ONOFF = 96;
 
-// --- INIT PATCH DEFAULTS ---
-// This array defines the default state for a 'Basic' or 'Init' patch
-const INIT_PATCH_DEFAULTS = [
+// --- INIT PATCH DEFAULTS ------ INIT PATCH DEFAULTS (Used by Init and Random functions) ---
+const ALL_PATCH_CONTROLS = [
     // Global / Modulation
     { id: 'mod-wheel', cc: CC_MODULATION, value: 0 },
     { id: 'portamento-time', cc: CC_PORTAMENTO_TIME, value: 0 },
@@ -96,10 +95,17 @@ const INIT_PATCH_DEFAULTS = [
     { id: 'vca-release', cc: CC_VCA_RELEASE, value: 0 }
 ];
 
+// --- Random number generator: Get a random integer between min (inclusive) and max (inclusive)
+function getRandomInt(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
 // --- INIT PATCH FUNCTION ---
 function initPatch() {
     console.log("Initializing patch...");
-    INIT_PATCH_DEFAULTS.forEach(param => {
+    ALL_PATCH_CONTROLS.forEach(param => {
         const element = document.getElementById(param.id);
         if (element) {
             let midiValue = param.value;
@@ -116,7 +122,38 @@ function initPatch() {
             sendMidiCC(param.cc, midiValue);
         }
     });
-    console.log("Patch initialized and MIDI messages sent.");
+    // console.log("Patch initialized and MIDI messages sent.");
+}
+
+// --- RANDOM PATCH FUNCTION (NEW) ---
+function randomPatch() {
+    console.log("Generating random patch...");
+    ALL_PATCH_CONTROLS.forEach(param => {
+        const element = document.getElementById(param.id);
+        if (element) {
+            let minValue = param.min !== undefined ? param.min : 0;
+            let maxValue = param.max !== undefined ? param.max : 127;
+            
+            let randomValue;
+            let midiValue;
+            
+            if (param.isCheckbox) {
+                // Randomly set Ring Mod On/Off (0 or 127)
+                // 1 in 3 chance of being ON (127)
+                randomValue = getRandomInt(0, 2) === 2 ? 127 : 0;
+                element.checked = (randomValue === 127);
+                midiValue = randomValue;
+            } else {
+                // Random value for sliders
+                randomValue = getRandomInt(minValue, maxValue);
+                element.value = randomValue;
+                midiValue = randomValue;
+            }
+            
+            sendMidiCC(param.cc, midiValue);
+        }
+    });
+    console.log("Random patch generated and MIDI messages sent.");
 }
 
 // --- INITIALIZATION ---
@@ -143,13 +180,19 @@ function onMIDISuccess(midiAccess) {
         connectToSelectedOutput(event.target.value, midiAccess);
     });
 
-    // 4. Attach INIT PATCH button listener (NEW)
+    // 4. Attach INIT PATCH button listener
     const initButton = document.getElementById('init-patch-button');
     if (initButton) {
         initButton.addEventListener('click', initPatch);
     }
 
-    // 5. Attach all parameter listeners
+    // 5. Attach INIT PATCH button listener
+    const randomButton = document.getElementById('random-patch-button');
+    if (randomButton) {
+        randomButton.addEventListener('click', randomPatch);
+    }
+
+    // 6. Attach all parameter listeners
     
     // Helper to attach listeners to all continuous sliders
     const attachSliderListener = (ccNumber, elementId) => {
