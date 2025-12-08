@@ -54,8 +54,8 @@ const ALL_PATCH_CONTROLS = [
 
     // Oscillator
     { id: 'osc-balance', cc: CC_OSC_BALANCE, value: 64 }, // Center
-    { id: 'osc1-wave', cc: CC_OSC1_WAVE, value: 0 },
-    { id: 'osc2-wave', cc: CC_OSC2_WAVE, value: 0 },
+    { id: 'osc1-wave', cc: CC_OSC1_WAVE, value: 18 },
+    { id: 'osc2-wave', cc: CC_OSC2_WAVE, value: 21 },
     { id: 'osc1-coarse', cc: CC_OSC1_COARSE, value: 64 }, // Center
     { id: 'osc2-coarse', cc: CC_OSC2_COARSE, value: 64 }, // Center
     { id: 'osc1-fine', cc: CC_OSC1_FINE, value: 64 }, // Center
@@ -84,13 +84,13 @@ const ALL_PATCH_CONTROLS = [
 
     // VCF Envelope (ADSR)
     { id: 'vcf-attack', cc: CC_VCF_ATTACK, value: 0 },
-    { id: 'vcf-decay', cc: CC_VCF_DECAY, value: 64 }, // Mid-range decay
-    { id: 'vcf-sustain', cc: CC_VCF_SUSTAIN, value: 0 }, // No sustain
+    { id: 'vcf-decay', cc: CC_VCF_DECAY, value: 0 },
+    { id: 'vcf-sustain', cc: CC_VCF_SUSTAIN, value: 127},
     { id: 'vcf-release', cc: CC_VCF_RELEASE, value: 0 },
     
     // VCA Envelope (ADSR)
     { id: 'vca-attack', cc: CC_VCA_ATTACK, value: 0 },
-    { id: 'vca-decay', cc: CC_VCA_DECAY, value: 64 }, // Mid-range decay
+    { id: 'vca-decay', cc: CC_VCA_DECAY, value: 0 }, // Mid-range decay
     { id: 'vca-sustain', cc: CC_VCA_SUSTAIN, value: 127 }, // Full sustain (gate open)
     { id: 'vca-release', cc: CC_VCA_RELEASE, value: 0 }
 ];
