@@ -46,6 +46,79 @@ const CC_LFO1_DEST = 56;
 const CC_RING_MOD_AMT = 95;
 const CC_RING_MOD_ONOFF = 96;
 
+// --- INIT PATCH DEFAULTS ---
+// This array defines the default state for a 'Basic' or 'Init' patch
+const INIT_PATCH_DEFAULTS = [
+    // Global / Modulation
+    { id: 'mod-wheel', cc: CC_MODULATION, value: 0 },
+    { id: 'portamento-time', cc: CC_PORTAMENTO_TIME, value: 0 },
+
+    // Oscillator
+    { id: 'osc-balance', cc: CC_OSC_BALANCE, value: 64 }, // Center
+    { id: 'osc1-wave', cc: CC_OSC1_WAVE, value: 0 },
+    { id: 'osc2-wave', cc: CC_OSC2_WAVE, value: 0 },
+    { id: 'osc1-coarse', cc: CC_OSC1_COARSE, value: 64 }, // Center
+    { id: 'osc2-coarse', cc: CC_OSC2_COARSE, value: 64 }, // Center
+    { id: 'osc1-fine', cc: CC_OSC1_FINE, value: 64 }, // Center
+    { id: 'osc2-fine', cc: CC_OSC2_FINE, value: 64 }, // Center
+    { id: 'osc1-pwm-detune', cc: CC_OSC1_PWM_DETUNE, value: 0 },
+    { id: 'osc2-pwm', cc: CC_OSC2_PWM, value: 0 },
+
+    // Ring Modulation
+    { id: 'ring-mod-amount', cc: CC_RING_MOD_AMT, value: 0 },
+    // Checkbox: value 0 (unchecked) sends 0
+    { id: 'ring-mod-onoff', cc: CC_RING_MOD_ONOFF, value: 0, isCheckbox: true }, 
+
+    // LFO
+    { id: 'lfo1-amount', cc: CC_LFO1_AMOUNT, value: 0 },
+    { id: 'lfo2-amount', cc: CC_LFO2_AMOUNT, value: 0 },
+    { id: 'lfo1-rate', cc: CC_LFO1_RATE, value: 64 }, // Center
+    { id: 'lfo2-rate', cc: CC_LFO2_RATE, value: 64 }, // Center
+    { id: 'lfo1-wave', cc: CC_LFO1_WAVE, value: 0 },
+    { id: 'lfo2-wave', cc: CC_LFO2_WAVE, value: 0 },
+    { id: 'lfo1-dest', cc: CC_LFO1_DEST, value: 0 },
+
+    // Filter Main
+    { id: 'vcf-cutoff', cc: CC_VCF_CUTOFF, value: 80 },
+    { id: 'vcf-resonance', cc: CC_VCF_RESONANCE, value: 10 },
+    { id: 'vcf-env-amount', cc: CC_VCF_ENV_AMOUNT, value: 64 }, // Center
+
+    // VCF Envelope (ADSR)
+    { id: 'vcf-attack', cc: CC_VCF_ATTACK, value: 0 },
+    { id: 'vcf-decay', cc: CC_VCF_DECAY, value: 64 }, // Mid-range decay
+    { id: 'vcf-sustain', cc: CC_VCF_SUSTAIN, value: 0 }, // No sustain
+    { id: 'vcf-release', cc: CC_VCF_RELEASE, value: 0 },
+    
+    // VCA Envelope (ADSR)
+    { id: 'vca-attack', cc: CC_VCA_ATTACK, value: 0 },
+    { id: 'vca-decay', cc: CC_VCA_DECAY, value: 64 }, // Mid-range decay
+    { id: 'vca-sustain', cc: CC_VCA_SUSTAIN, value: 127 }, // Full sustain (gate open)
+    { id: 'vca-release', cc: CC_VCA_RELEASE, value: 0 }
+];
+
+// --- INIT PATCH FUNCTION ---
+function initPatch() {
+    console.log("Initializing patch...");
+    INIT_PATCH_DEFAULTS.forEach(param => {
+        const element = document.getElementById(param.id);
+        if (element) {
+            let midiValue = param.value;
+            
+            if (param.isCheckbox) {
+                // For Checkboxes (like Ring Mod ON/OFF), 0 is off (false)
+                element.checked = (param.value === 127);
+            } else {
+                // For Sliders
+                element.value = param.value;
+            }
+            
+            // Send the MIDI CC message
+            sendMidiCC(param.cc, midiValue);
+        }
+    });
+    console.log("Patch initialized and MIDI messages sent.");
+}
+
 // --- INITIALIZATION ---
 if (navigator.requestMIDIAccess) {
     navigator.requestMIDIAccess().then(onMIDISuccess, onMIDIFailure);
@@ -70,7 +143,13 @@ function onMIDISuccess(midiAccess) {
         connectToSelectedOutput(event.target.value, midiAccess);
     });
 
-    // 4. Attach all parameter listeners
+    // 4. Attach INIT PATCH button listener (NEW)
+    const initButton = document.getElementById('init-patch-button');
+    if (initButton) {
+        initButton.addEventListener('click', initPatch);
+    }
+
+    // 5. Attach all parameter listeners
     
     // Helper to attach listeners to all continuous sliders
     const attachSliderListener = (ccNumber, elementId) => {

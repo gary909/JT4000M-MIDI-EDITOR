@@ -185,4 +185,45 @@ input[type="range"] {
     margin-bottom: 8px; /* Adds 8 pixels of space below the label */
 }
 
+/* --- NEW STYLES FOR PATCH BUTTONS --- */
 
+/* Container for the two button groups, aligns them horizontally */
+#patch-controls {
+    display: flex;
+    gap: 15px; /* Space between the two button groups */
+    margin-right: 10px; /* Pulls the buttons slightly away from the spacer */
+}
+
+/* Container for each button and its label, aligns them vertically */
+.patch-button-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Style for the button labels (INIT PATCH, RANDOM) */
+.patch-button-group label {
+    margin-bottom: 8px; /* Matches the spacing used in #midi-status */
+}
+
+/* Style for the buttons themselves */
+#init-patch-button, #random-patch-button {
+    /* Visual style matching the MIDI Select box */
+    background-color: #794D06; /* Darker than the select box background */
+    color: #B3B953;
+    font-family: 'VT323', monospace;
+    font-size: 1.2em;
+    border: 5px solid #313236; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2), inset 0 0 10px 1px rgba(0, 0, 0, 0.1);
+    padding: 5px 10px; /* Padding for size */
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.1s;
+}
+
+/* Hover effect */
+#init-patch-button:hover, #random-patch-button:hover {
+    background-color: #925C07; /* Slightly lighter on hover */
+}
+
+/* --- END OF STYLES FOR PATCH BUTTONS --- */
