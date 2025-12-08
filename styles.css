@@ -209,8 +209,8 @@ input[type="range"] {
 /* Style for the buttons themselves */
 #init-patch-button, #random-patch-button {
     /* Visual style matching the MIDI Select box */
-    background-color: #794D06; /* Darker than the select box background */
-    color: #B3B953;
+    background-color: #313236; /* Darker than the select box background */
+    color: #ebe1d7;
     font-family: 'VT323', monospace;
     font-size: 1.2em;
     border: 5px solid #313236; 
