@@ -1,10 +1,14 @@
 "# JT4000M-MIDI-EDITOR" 
 
-*_work in progress_*
+![Behringer JT 4000 MIDI Editor](media/editorImage.png)
 
-For access to MIDI in the browser you might need to enable the following button (found at the right of the browser URL):
+To access MIDI in the browser you might need to enable the following button (found at the right of the browser URL):
 
 ![Allow MIDI](media/allowMIDI.png)
+
+-Tested on Chrome
+-To save a patch, just press down on the pot of JT4000
+
 
 _____________________________________________
 

@@ -16,16 +16,15 @@ body {
 h1 {
   color: #D4CABF;
   font-family: 'Orbitron', sans-serif;
-  /* font-family: 'Tourney', sans-serif; */
   font-size: 40px;
-  margin-bottom: -10px; /* Pull H2 closer to H1 */
+  margin-bottom: -10px;
 }
 
 h2 {
   color: #EBA85B;
   font-family: 'Orbitron', sans-serif;
   font-size: 37px;
-  margin-top: 0; /* Eliminate default top margin */
+  margin-top: 0;
   margin-bottom: 0;
 }
 
@@ -35,7 +34,7 @@ h3 {
 }
 
 label {
-  color: #ebe1d7; /* Use a light gray color for good contrast with a dark background */
+  color: #ebe1d7;
   font-size: 10px;
 }
 
@@ -47,112 +46,94 @@ p {
     display: flex;
     justify-content: space-around;
     align-items: center; 
-    max-width: 1280px; /* Ensures it matches the width of your control boxes */
+    max-width: 1280px;
     width: 100%;
     margin-bottom: 10px;
-    padding: 0 10px; /* Matches padding on #controls for alignment */
+    padding: 0 10px;
     box-sizing: border-box;
 }
 
 #header-block {  /* The main title */
-    /* max-width: 1280px; */
-    /* width: 100%; */
-    text-align: left; /* Aligns H1/H2 text to the left */
+    text-align: left;
     margin-left: 10px;
-    /* margin-bottom: 20px; */
 }
 
-/* The header block and the spacer need an explicit width for centering */
 #header-block, #header-spacer {
-    width: 300px; /* This width must be wide enough for your titles */
+    width: 300px;
     flex-shrink: 0;
 }
 
 #controls {
-    display: flex; /* Turn the container into a flex container */
-    flex-wrap: wrap; /* Allow boxes to wrap to the next line if the screen is too narrow */
-    justify-content: center; /* Center the boxes horizontally */
-    max-width: 1280px; /* Optional: Limit the total width of the synth panel */
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    max-width: 1280px;
     padding: 10px;
 }
 
 .control-box {
     background-color: #36436A;
     border: 5px solid #313236;
-    /* background-color: #2F291B; */
-    /* border: 1px solid #201c13; */
     padding: 10px;
     border-radius: 10px;
-    /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2), inset 0 0 10px 1px rgba(0, 0, 0, 0.1);
     min-width: 200px;
     margin: 10px;
 }
 
-/* Reduce top margin for headers inside control boxes to minimize the gap */
 .control-box h3 {
     margin-top: 0;
-    margin-bottom: 12px; /* Slightly reduce the bottom margin as well */
+    margin-bottom: 12px;
     background-color: #313236;
 }
 
 .parameter-row {
     display: flex;
-    justify-content: space-between; /* This pushes the label to the left and the slider to the right */
-    align-items: center; /* Vertically aligns the label and slider */
-    margin-bottom: 8px; /* Adds space between rows of parameters */
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
 }
 
-/* Optional: Adjust slider width to fit better next to the label */
 input[type="range"] {
     width: 100px; 
 }
 
 
 /* --- Tooltip Styling --- */
-
-/* Parent container: Must be relative for the tooltiptext to be positioned correctly */
 .tooltip {
     position: relative;
-    display: inline-block; /* Allows it to sit nicely within the parameter-row */
-    cursor: help; /* Change cursor to indicate hoverable info */
+    display: inline-block;
+    cursor: help;
 }
 
-/* Tooltip text bubble style */
 .tooltip .tooltiptext {
-    visibility: hidden; /* Hide by default */
-    width:max-content; /* Set a width for the pop-up box */
-    background-color: #201c13; /* Dark background for the tip */
-    color: #fff; /* White text */
+    visibility: hidden;
+    width:max-content;
+    background-color: #201c13;
+    color: #fff;
     text-align: left;
     border-radius: 6px;
     padding: 5px 5px;
-    
-    /* Position the tooltip */
     position: absolute;
-    z-index: 10; /* Ensure it stays on top of other elements */
-    bottom: 100%; /* Position above the label */
+    z-index: 10;
+    bottom: 100%;
     right: 100%;
-    margin-left: 10px; /* Center the box (half of the width) */
-    
-    /* Smooth transition for fade-in effect */
+    margin-left: 10px;
     opacity: 0;
     transition: opacity 0.3s;
 }
 
-/* Tooltip Arrow (Optional, but adds a nice touch) */
+
 .tooltip .tooltiptext::after {
     content: "";
     position: absolute;
     bottom: 0%;
     left: -10%;
-    /* margin-left: -5px; */
     border-width: 5px;
     border-style: solid;
     border-color: transparent transparent transparent #201c1300;
 }
 
-/* Show the tooltip text when you hover over the parent .tooltip container */
 .tooltip:hover .tooltiptext {
     visibility: visible;
     opacity: 1;
@@ -165,8 +146,8 @@ input[type="range"] {
     background-color: #514109;
     color: #B3B953;
     font-family: 'VT323', monospace;
-    font-size: 1.2em; /* Increase font size for better visibility with VT323 */
-    border: 5px solid #313236; /* Add a border matching the font color */
+    font-size: 1.2em;
+    border: 5px solid #313236;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2), inset 0 0 10px 1px rgba(0, 0, 0, 0.1);
     padding: 5px;
     border-radius: 5px;
@@ -177,53 +158,43 @@ input[type="range"] {
     display: flex;
     flex-direction: column; /* Stack the label and select box vertically */
     align-items: center; /* Center the stacked items horizontally */
-    /* margin: 0 auto; */
 }
 
 /* Add space below the label within the MIDI status block */
 #midi-status label {
-    margin-bottom: 8px; /* Adds 8 pixels of space below the label */
+    margin-bottom: 8px;
 }
 
-/* --- NEW STYLES FOR PATCH BUTTONS --- */
-
-/* Container for the two button groups, aligns them horizontally */
 #patch-controls {
     display: flex;
-    gap: 15px; /* Space between the two button groups */
-    margin-right: 10px; /* Pulls the buttons slightly away from the spacer */
+    gap: 15px;
+    margin-right: 10px;
 }
 
-/* Container for each button and its label, aligns them vertically */
 .patch-button-group {
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
-/* Style for the button labels (INIT PATCH, RANDOM) */
 .patch-button-group label {
-    margin-bottom: 8px; /* Matches the spacing used in #midi-status */
+    margin-bottom: 8px;
 }
 
 /* Style for the buttons themselves */
 #init-patch-button, #random-patch-button {
-    /* Visual style matching the MIDI Select box */
-    background-color: #313236; /* Darker than the select box background */
+    background-color: #313236;
     color: #ebe1d7;
     font-family: 'VT323', monospace;
     font-size: 1.2em;
     border: 5px solid #313236; 
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2), inset 0 0 10px 1px rgba(0, 0, 0, 0.1);
-    padding: 5px 10px; /* Padding for size */
+    padding: 5px 10px;
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.1s;
 }
 
-/* Hover effect */
 #init-patch-button:hover, #random-patch-button:hover {
-    background-color: #925C07; /* Slightly lighter on hover */
+    background-color: #925C07; 
 }
-
-/* --- END OF STYLES FOR PATCH BUTTONS --- */
