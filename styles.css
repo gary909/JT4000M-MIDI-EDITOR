@@ -105,7 +105,7 @@ p {
 
 /* Optional: Adjust slider width to fit better next to the label */
 input[type="range"] {
-    width: 120px; 
+    width: 100px; 
 }
 
 
