@@ -1,6 +1,9 @@
 // Variable to store the selected MIDI output port
 let midiOutput = null;
 
+// Variable to store the original text of the MIDI status element
+let originalMidiStatusText = '';
+
 // --- MIDI CC numbers for parameters ---
 
 // Global / Modulation
@@ -131,9 +134,12 @@ function randomPatch() {
     ALL_PATCH_CONTROLS.forEach(param => {
         const element = document.getElementById(param.id);
         if (element) {
-            let minValue = param.min !== undefined ? param.min : 0;
-            let maxValue = param.max !== undefined ? param.max : 127;
+            let minValue = 0; // Default min
+            let maxValue = 127; // Default max
             
+            // Note: For simplicity, min/max for all inputs are 0/127 in index.html,
+            // so we don't strictly need to read them from the element here.
+
             let randomValue;
             let midiValue;
             
@@ -156,6 +162,20 @@ function randomPatch() {
     console.log("Random patch generated and MIDI messages sent.");
 }
 
+// --- WAVEFORM NAME HELPER (NEW) ---
+function getOsc1WaveformName(value) {
+    if (value >= 0 && value <= 17) return 'OSC 1: OFF';
+    if (value >= 18 && value <= 35) return 'OSC 1: TRI';
+    if (value >= 36 && value <= 53) return 'OSC 1: SQR';
+    if (value >= 54 && value <= 71) return 'OSC 1: PWM';
+    if (value >= 72 && value <= 89) return 'OSC 1: SAW';
+    if (value >= 90 && value <= 107) return 'OSC 1: SUPERSAW';
+    if (value >= 108 && value <= 125) return 'OSC 1: FM';
+    if (value >= 126 && value <= 127) return 'OSC 1: NOISE';
+    return 'OSC 1: Unknown Waveform';
+}
+
+
 // --- INITIALIZATION ---
 if (navigator.requestMIDIAccess) {
     navigator.requestMIDIAccess().then(onMIDISuccess, onMIDIFailure);
@@ -164,7 +184,12 @@ if (navigator.requestMIDIAccess) {
 // --- FAILURE HANDLER ---
 function onMIDIFailure() {
     console.log("Could not access your MIDI devices.");
-    document.body.innerHTML += '<p style="color: red;">ERROR: Could not access your MIDI devices. Check permissions and connections.</p>';
+    // Use the new status element for the error message
+    const statusElement = document.getElementById('midi-device-status-text');
+    if (statusElement) {
+        statusElement.textContent = 'ERROR: Could not access MIDI devices.';
+        statusElement.style.color = 'red';
+    }
 }
 
 // --- SUCCESS HANDLER (MAIN LOGIC) ---
@@ -186,7 +211,7 @@ function onMIDISuccess(midiAccess) {
         initButton.addEventListener('click', initPatch);
     }
 
-    // 5. Attach INIT PATCH button listener
+    // 5. Attach RANDOM PATCH button listener
     const randomButton = document.getElementById('random-patch-button');
     if (randomButton) {
         randomButton.addEventListener('click', randomPatch);
@@ -211,7 +236,7 @@ function onMIDISuccess(midiAccess) {
 
     // Oscillator
     attachSliderListener(CC_OSC_BALANCE, 'osc-balance');
-    attachSliderListener(CC_OSC1_WAVE, 'osc1-wave');
+    // attachSliderListener(CC_OSC1_WAVE, 'osc1-wave'); // Removed this generic call
     attachSliderListener(CC_OSC2_WAVE, 'osc2-wave');
     attachSliderListener(CC_OSC1_COARSE, 'osc1-coarse');
     attachSliderListener(CC_OSC2_COARSE, 'osc2-coarse');
@@ -219,6 +244,41 @@ function onMIDISuccess(midiAccess) {
     attachSliderListener(CC_OSC2_FINE, 'osc2-fine');
     attachSliderListener(CC_OSC1_PWM_DETUNE, 'osc1-pwm-detune');
     attachSliderListener(CC_OSC2_PWM, 'osc2-pwm');
+
+    // --- CUSTOM LISTENER FOR OSC 1 WAVEFORM ---
+    const osc1WaveSlider = document.getElementById('osc1-wave');
+    const statusElement = document.getElementById('midi-output-select');
+
+    if (osc1WaveSlider && statusElement) {
+        
+        // 1. Mouse Down: Store the original status text and clear it
+        osc1WaveSlider.addEventListener('mousedown', () => {
+            // Save the current status text (which will be the selected device name)
+            originalMidiStatusText = statusElement.options[statusElement.selectedIndex].textContent;
+            
+            // Clear the select box text display
+            statusElement.options[statusElement.selectedIndex].textContent = ''; 
+        });
+
+        // 2. Input: Send MIDI and update the select box text with the waveform name
+        osc1WaveSlider.addEventListener('input', (event) => {
+            const ccValue = parseInt(event.target.value);
+            sendMidiCC(CC_OSC1_WAVE, ccValue);
+            
+            const waveformName = getOsc1WaveformName(ccValue);
+            console.log(waveformName);
+
+            // Temporarily display the waveform name in the select box
+            statusElement.options[statusElement.selectedIndex].textContent = waveformName;
+        });
+
+        // 3. Mouse Up: Restore the original status text
+        osc1WaveSlider.addEventListener('mouseup', () => {
+            // Restore the original status text (the device name)
+            statusElement.options[statusElement.selectedIndex].textContent = originalMidiStatusText;
+        });
+    }
+    // --- END CUSTOM LISTENER ---
 
     // Filter Main
     attachSliderListener(CC_VCF_CUTOFF, 'vcf-cutoff');
@@ -267,24 +327,46 @@ function populateOutputDevices(midiAccess) {
     select.innerHTML = ''; 
 
     if (midiAccess.outputs.size === 0) {
-        select.innerHTML = '<option value="">-- No Devices Found --</option>';
+        const option = document.createElement('option');
+        option.value = '';
+        // The default text should be in the option for the initial state
+        option.textContent = '-- No Devices Found --'; 
+        select.appendChild(option);
         midiOutput = null;
         return;
     }
 
     let foundSelection = false;
+    let autoSelectId = null;
+
+    // First pass: Find if a previous selection or the JT-4000M exists
+    midiAccess.outputs.forEach((output) => {
+        if (output.id === currentId) {
+            autoSelectId = output.id;
+        } else if (output.name.includes("JT-4000M")) {
+            autoSelectId = output.id;
+        }
+    });
+
+    // Second pass: Populate the list and set selection
     midiAccess.outputs.forEach((output) => {
         const option = document.createElement('option');
         option.value = output.id;
         option.textContent = output.name;
         select.appendChild(option);
 
-        if (output.id === currentId || output.name.includes("JT-4000M")) {
+        if (output.id === autoSelectId) {
             option.selected = true;
             foundSelection = true;
         }
     });
+    
+    // If no device was selected after populating, set the first one as selected
+    if (!foundSelection && midiAccess.outputs.size > 0) {
+        select.options[0].selected = true;
+    }
 
+    // Connect to the device that is now selected (either found or the first one)
     connectToSelectedOutput(select.value, midiAccess);
 }
 
@@ -293,6 +375,9 @@ function connectToSelectedOutput(portId, midiAccess) {
     if (portId) {
         midiOutput = midiAccess.outputs.get(portId);
         console.log(`Now connected to: ${midiOutput.name}`);
+        // Update the status text to show the connected device name (in case it wasn't already selected)
+        const select = document.getElementById('midi-output-select');
+        select.options[select.selectedIndex].textContent = midiOutput.name;
     } else {
         midiOutput = null;
         console.log("No valid MIDI output selected.");
@@ -304,8 +389,8 @@ function sendMidiCC(ccNumber, value) {
     if (midiOutput) {
         const midiMessage = [0xB0, ccNumber, value];
         midiOutput.send(midiMessage);
-        console.log(`Sent CC ${ccNumber} with value ${value}`);
+        // console.log(`Sent CC ${ccNumber} with value ${value}`); // Commented out to reduce console spam
     } else {
-        console.log("MIDI output device not selected. Cannot send message.");
+        // console.log("MIDI output device not selected. Cannot send message.");
     }
 }
