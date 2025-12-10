@@ -143,6 +143,7 @@ input[type="range"] {
 
 /* Styling for the MIDI output selection box */
 #midi-output-select {
+    width: 250px;
     background-color: #514109;
     color: #B3B953;
     font-family: 'VT323', monospace;
