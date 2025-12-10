@@ -175,6 +175,17 @@ function getOsc1WaveformName(value) {
     return 'OSC 1: Unknown Waveform';
 }
 
+// --- WAVEFORM NAME HELPER for OSC 2 (NEW) ---
+function getOsc2WaveformName(value) {
+    if (value >= 0 && value <= 20) return 'OSC 2: OFF';
+    if (value >= 21 && value <= 41) return 'OSC 2: TRI';
+    if (value >= 42 && value <= 62) return 'OSC 2: SQR';
+    if (value >= 63 && value <= 83) return 'OSC 2: PWM';
+    if (value >= 84 && value <= 104) return 'OSC 2: SAW';
+    if (value >= 105 && value <= 127) return 'OSC 2: NOISE';
+    return 'OSC 2: Unknown Waveform';
+}
+
 
 // --- INITIALIZATION ---
 if (navigator.requestMIDIAccess) {
@@ -237,7 +248,7 @@ function onMIDISuccess(midiAccess) {
     // Oscillator
     attachSliderListener(CC_OSC_BALANCE, 'osc-balance');
     // attachSliderListener(CC_OSC1_WAVE, 'osc1-wave'); // Removed this generic call
-    attachSliderListener(CC_OSC2_WAVE, 'osc2-wave');
+    // attachSliderListener(CC_OSC2_WAVE, 'osc2-wave');
     attachSliderListener(CC_OSC1_COARSE, 'osc1-coarse');
     attachSliderListener(CC_OSC2_COARSE, 'osc2-coarse');
     attachSliderListener(CC_OSC1_FINE, 'osc1-fine');
@@ -278,7 +289,41 @@ function onMIDISuccess(midiAccess) {
             statusElement.options[statusElement.selectedIndex].textContent = originalMidiStatusText;
         });
     }
-    // --- END CUSTOM LISTENER ---
+    // --- END CUSTOM LISTENER FOR OSC 1 ---
+
+    // --- CUSTOM LISTENER FOR OSC 2 WAVEFORM (NEW BLOCK) ---
+    const osc2WaveSlider = document.getElementById('osc2-wave');
+
+    if (osc2WaveSlider && statusElement) {
+        
+        // 1. Mouse Down: Store the original status text and clear it
+        osc2WaveSlider.addEventListener('mousedown', () => {
+            // Re-save the current status text just in case osc1 was the last one used
+            originalMidiStatusText = statusElement.options[statusElement.selectedIndex].textContent;
+            
+            // Clear the select box text display
+            statusElement.options[statusElement.selectedIndex].textContent = ''; 
+        });
+
+        // 2. Input: Send MIDI and update the select box text with the waveform name
+        osc2WaveSlider.addEventListener('input', (event) => {
+            const ccValue = parseInt(event.target.value);
+            sendMidiCC(CC_OSC2_WAVE, ccValue);
+            
+            const waveformName = getOsc2WaveformName(ccValue);
+            console.log(waveformName);
+
+            // Temporarily display the waveform name in the select box
+            statusElement.options[statusElement.selectedIndex].textContent = waveformName;
+        });
+
+        // 3. Mouse Up: Restore the original status text
+        osc2WaveSlider.addEventListener('mouseup', () => {
+            // Restore the original status text (the device name)
+            statusElement.options[statusElement.selectedIndex].textContent = originalMidiStatusText;
+        });
+    }
+    // --- END CUSTOM LISTENER FOR OSC 2 ---
 
     // Filter Main
     attachSliderListener(CC_VCF_CUTOFF, 'vcf-cutoff');
