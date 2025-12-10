@@ -159,6 +159,7 @@ input[type="range"] {
     display: flex;
     flex-direction: column; /* Stack the label and select box vertically */
     align-items: center; /* Center the stacked items horizontally */
+    margin-top: 20px;
 }
 
 /* Add space below the label within the MIDI status block */
@@ -207,4 +208,48 @@ input[type="range"] {
     text-decoration: underline;
     /* You might also want to change the color for emphasis */
     color: #EBA85B !important; 
+}
+
+/* --- NEW MEDIA QUERY FOR MOBILE VIEW --- */
+@media (max-width: 768px) {
+    
+    /* 1. Stack the three main header sections vertically */
+    #main-header {
+        flex-direction: column;
+        /* Remove space-around and use flex-start for a tight stack, 
+           then center the content within the header */
+        justify-content: flex-start; 
+        align-items: center; /* Center the entire header block */
+        padding: 10px 0; /* Add some vertical padding */
+    }
+
+    /* 2. Ensure each block is full width (or nearly full) and centered */
+    #header-block,
+    #midi-status,
+    #patch-controls {
+        width: 90%; /* Take up the full width of the main-header */
+        margin: 10px 0; /* Add vertical spacing between stacked elements */
+        text-align: center; /* Center text inside the header block */
+        
+        /* Optional: Center the button groups horizontally within their block */
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    /* 3. Adjust specific inner elements to ensure they stack/center correctly */
+    
+    /* Center the buttons within the patch-controls group */
+    #patch-controls {
+        flex-direction: row;
+        gap: 15px; /* Remove horizontal gap when stacked */
+        justify-content: center; /* <<< THIS IS THE CRITICAL ADDITION */
+        width: 100%;
+    }
+    
+    /* Center the individual button groups and add vertical margin */
+    .patch-button-group {
+        margin: 0; 
+        width: auto; /* Allow content to dictate width */
+    }
 }
