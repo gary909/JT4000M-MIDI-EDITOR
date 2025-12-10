@@ -146,6 +146,12 @@ function initPatch() {
                 const waveformName = getLfo2WaveformName(midiValue);
                 console.log(waveformName);
             }
+
+            // Console log LFO 1 Destination Name on Init ---
+            if (param.cc === CC_LFO1_DEST) {
+                const destName = getLfo1DestinationName(midiValue);
+                console.log(destName);
+            }
         }
     });
 
@@ -207,6 +213,12 @@ function randomPatch() {
             if (param.cc === CC_LFO2_WAVE) {
                 const waveformName = getLfo2WaveformName(midiValue);
                 console.log(waveformName);
+            }
+
+            // --- NEW: Console log LFO 1 Destination Name on Random ---
+            if (param.cc === CC_LFO1_DEST) {
+                const destName = getLfo1DestinationName(midiValue);
+                console.log(destName);
             }
         }
     });
@@ -308,6 +320,14 @@ function onMIDIFailure() {
         statusElement.textContent = 'ERROR: Could not access MIDI devices.';
         statusElement.style.color = 'red';
     }
+}
+
+// --- LFO 1 DESTINATION NAME HELPER ---
+function getLfo1DestinationName(value) {
+    // Assuming the user meant LFO 1 DEST: VCF and LFO 1 DEST: SAWT
+    if (value >= 0 && value <= 63) return 'LFO 1 DEST: VCF';
+    if (value >= 64 && value <= 127) return 'LFO 1 DEST: SAWT';
+    return 'LFO 1 DEST: Unknown Destination';
 }
 
 // --- SUCCESS HANDLER (MAIN LOGIC) ---
@@ -539,7 +559,38 @@ function onMIDISuccess(midiAccess) {
     }
 
 
-    attachSliderListener(CC_LFO1_DEST, 'lfo1-dest');
+    // attachSliderListener(CC_LFO1_DEST, 'lfo1-dest');
+
+    // --- CUSTOM LISTENER FOR LFO 1 DESTINATION (NEW BLOCK) ---
+    const lfo1DestSlider = document.getElementById('lfo1-dest');
+    // statusElement is already defined near the OSC listeners
+
+    if (lfo1DestSlider && statusElement) {
+        
+        // 1. Mouse Down: Store the original status text and clear it
+        lfo1DestSlider.addEventListener('mousedown', () => {
+            originalMidiStatusText = statusElement.options[statusElement.selectedIndex].textContent;
+            statusElement.options[statusElement.selectedIndex].textContent = ''; 
+        });
+
+        // 2. Input: Send MIDI, console.log, and update the select box text
+        lfo1DestSlider.addEventListener('input', (event) => {
+            const ccValue = parseInt(event.target.value);
+            sendMidiCC(CC_LFO1_DEST, ccValue);
+            
+            const destName = getLfo1DestinationName(ccValue);
+            console.log(destName);
+
+            // Temporarily display the destination name in the select box
+            statusElement.options[statusElement.selectedIndex].textContent = destName;
+        });
+
+        // 3. Mouse Up: Restore the original status text
+        lfo1DestSlider.addEventListener('mouseup', () => {
+            statusElement.options[statusElement.selectedIndex].textContent = originalMidiStatusText;
+        });
+    }
+    // --- END CUSTOM LISTENER FOR LFO 1 DESTINATION ---
 
     // Ring Modulation Amount
     attachSliderListener(CC_RING_MOD_AMT, 'ring-mod-amount');
