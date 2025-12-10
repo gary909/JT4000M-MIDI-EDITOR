@@ -199,3 +199,11 @@ input[type="range"] {
 #init-patch-button:hover, #random-patch-button:hover {
     background-color: #925C07; 
 }
+
+/* New style to highlight the active OSC2 PWM control */
+.active-control {
+    /* Apply underline */
+    text-decoration: underline;
+    /* You might also want to change the color for emphasis */
+    color: #EBA85B !important; 
+}

@@ -157,6 +157,11 @@ function randomPatch() {
             }
             
             sendMidiCC(param.cc, midiValue);
+
+            // --- NEW: Update specific label status after setting value ---
+            if (param.cc === CC_OSC2_WAVE) {
+                updateOsc2PwmLabelState(midiValue);
+            }
         }
     });
     console.log("Random patch generated and MIDI messages sent.");
@@ -184,6 +189,20 @@ function getOsc2WaveformName(value) {
     if (value >= 84 && value <= 104) return 'OSC 2: SAW';
     if (value >= 105 && value <= 127) return 'OSC 2: NOISE';
     return 'OSC 2: Unknown Waveform';
+}
+
+// --- NEW HELPER FUNCTION: Update OSC 2 PWM Label State ---
+function updateOsc2PwmLabelState(osc2WaveValue) {
+    const osc2PwmLabel = document.querySelector('label[for="osc2-pwm"]');
+    if (osc2PwmLabel) {
+        // The PWM range is 63 to 83 (inclusive)
+        if (osc2WaveValue >= 63 && osc2WaveValue <= 83) {
+            osc2PwmLabel.classList.add('active-control');
+        } else {
+            // Remove the class when outside the range
+            osc2PwmLabel.classList.remove('active-control');
+        }
+    }
 }
 
 
@@ -293,6 +312,7 @@ function onMIDISuccess(midiAccess) {
 
     // --- CUSTOM LISTENER FOR OSC 2 WAVEFORM (NEW BLOCK) ---
     const osc2WaveSlider = document.getElementById('osc2-wave');
+    const osc2PwmLabel = document.querySelector('label[for="osc2-pwm"]'); // to underline osc 2 pwm twxt
 
     if (osc2WaveSlider && statusElement) {
         
@@ -315,6 +335,21 @@ function onMIDISuccess(midiAccess) {
 
             // Temporarily display the waveform name in the select box
             statusElement.options[statusElement.selectedIndex].textContent = waveformName;
+
+            // --- UPDATED: Use the new helper function ---
+            updateOsc2PwmLabelState(ccValue);
+
+            // --- OSC 2 PWM DYNAMIC STYLING LOGIC ---
+            if (osc2PwmLabel) {
+                // The PWM range is 63 to 83 (inclusive)
+                if (ccValue >= 63 && ccValue <= 83) {
+                    // Add the class to underline the label
+                    osc2PwmLabel.classList.add('active-control');
+                } else {
+                    // Remove the class when outside the range
+                    osc2PwmLabel.classList.remove('active-control');
+                }
+            }
         });
 
         // 3. Mouse Up: Restore the original status text
