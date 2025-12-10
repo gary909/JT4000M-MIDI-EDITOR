@@ -162,6 +162,9 @@ function randomPatch() {
             if (param.cc === CC_OSC2_WAVE) {
                 updateOsc2PwmLabelState(midiValue);
             }
+            if (param.cc === CC_OSC1_WAVE) {
+                updateOsc1PwmDetuneFmState(midiValue);
+            }
         }
     });
     console.log("Random patch generated and MIDI messages sent.");
@@ -202,6 +205,32 @@ function updateOsc2PwmLabelState(osc2WaveValue) {
             // Remove the class when outside the range
             osc2PwmLabel.classList.remove('active-control');
         }
+    }
+}
+
+// --- NEW HELPER FUNCTION: Update OSC 1 PWM/Detune/FM Label State ---
+function updateOsc1PwmDetuneFmState(osc1WaveValue) {
+    // Determine the current waveform name (e.g., 'OSC 1: PWM')
+    const waveformName = getOsc1WaveformName(osc1WaveValue);
+
+    // Select the three label spans using the IDs created in index.html
+    const pwmSpan = document.getElementById('osc1-pwm-label');
+    const detuneSpan = document.getElementById('osc1-detune-label');
+    const fmSpan = document.getElementById('osc1-fm-label');
+
+    // Create an array of all spans for easy reset
+    const allSpans = [pwmSpan, detuneSpan, fmSpan].filter(e => e); 
+
+    // 1. Reset: Remove the active-control class from all spans first
+    allSpans.forEach(span => span.classList.remove('active-control'));
+
+    // 2. Apply: Add the class to the specific span based on the waveform
+    if (waveformName === 'OSC 1: PWM' && pwmSpan) {
+        pwmSpan.classList.add('active-control');
+    } else if (waveformName === 'OSC 1: SUPERSAW' && detuneSpan) {
+        detuneSpan.classList.add('active-control');
+    } else if (waveformName === 'OSC 1: FM' && fmSpan) {
+        fmSpan.classList.add('active-control');
     }
 }
 
@@ -300,6 +329,8 @@ function onMIDISuccess(midiAccess) {
 
             // Temporarily display the waveform name in the select box
             statusElement.options[statusElement.selectedIndex].textContent = waveformName;
+
+            updateOsc1PwmDetuneFmState(ccValue); // update and underline text
         });
 
         // 3. Mouse Up: Restore the original status text
