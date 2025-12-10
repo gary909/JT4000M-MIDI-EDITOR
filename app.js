@@ -108,6 +108,11 @@ function getRandomInt(min, max) {
 // --- INIT PATCH FUNCTION ---
 function initPatch() {
     console.log("Initializing patch...");
+
+    // Flag to track if the OSC wave controls were found and processed
+    let osc1WaveValue = null;
+    let osc2WaveValue = null;
+
     ALL_PATCH_CONTROLS.forEach(param => {
         const element = document.getElementById(param.id);
         if (element) {
@@ -123,8 +128,24 @@ function initPatch() {
             
             // Send the MIDI CC message
             sendMidiCC(param.cc, midiValue);
+
+            if (param.cc === CC_OSC1_WAVE) {
+                osc1WaveValue = midiValue;
+            }
+            if (param.cc === CC_OSC2_WAVE) {
+                osc2WaveValue = midiValue;
+            }
         }
     });
+
+    // --- NEW: Manually update the visual state of the labels after all MIDI is sent ---
+    // This ensures the labels are correctly set to the default patch values (18 and 21)
+    if (osc1WaveValue !== null) {
+        updateOsc1PwmDetuneFmState(osc1WaveValue);
+    }
+    if (osc2WaveValue !== null) {
+        updateOsc2PwmLabelState(osc2WaveValue);
+    }
     // console.log("Patch initialized and MIDI messages sent.");
 }
 
