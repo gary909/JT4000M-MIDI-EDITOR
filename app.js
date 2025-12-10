@@ -135,6 +135,17 @@ function initPatch() {
             if (param.cc === CC_OSC2_WAVE) {
                 osc2WaveValue = midiValue;
             }
+
+            // --- Console log LFO 1 Waveform Name on Init ---
+            if (param.cc === CC_LFO1_WAVE) {
+                const waveformName = getLfo1WaveformName(midiValue);
+                console.log(waveformName);
+            }
+
+            if (param.cc === CC_LFO2_WAVE) {
+                const waveformName = getLfo2WaveformName(midiValue);
+                console.log(waveformName);
+            }
         }
     });
 
@@ -185,6 +196,17 @@ function randomPatch() {
             }
             if (param.cc === CC_OSC1_WAVE) {
                 updateOsc1PwmDetuneFmState(midiValue);
+            }
+
+            // --- NEW: Console log LFO 1 Waveform Name on Random ---
+            if (param.cc === CC_LFO1_WAVE) {
+                const waveformName = getLfo1WaveformName(midiValue);
+                console.log(waveformName);
+            }
+
+            if (param.cc === CC_LFO2_WAVE) {
+                const waveformName = getLfo2WaveformName(midiValue);
+                console.log(waveformName);
             }
         }
     });
@@ -255,6 +277,22 @@ function updateOsc1PwmDetuneFmState(osc1WaveValue) {
     }
 }
 
+// --- LFO 1 WAVEFORM NAME HELPER ---
+function getLfo1WaveformName(value) {
+    if (value >= 0 && value <= 63) return 'LFO 1 WAVE: TRI';
+    if (value >= 64 && value <= 126) return 'LFO 1 WAVE: SQR';
+    if (value === 127) return 'LFO 1 WAVE: SAWT';
+    return 'LFO 1 WAVE: Unknown Waveform';
+}
+
+// --- LFO 2 WAVEFORM NAME HELPER ---
+function getLfo2WaveformName(value) {
+    if (value >= 0 && value <= 63) return 'LFO 2 WAVE: TRI';
+    if (value >= 64 && value <= 126) return 'LFO 2 WAVE: SQR';
+    if (value === 127) return 'LFO 2 WAVE: SAWT';
+    return 'LFO 2 WAVE: Unknown Waveform';
+}
+
 
 // --- INITIALIZATION ---
 if (navigator.requestMIDIAccess) {
@@ -306,6 +344,8 @@ function onMIDISuccess(midiAccess) {
             slider.addEventListener('input', (event) => {
                 const ccValue = parseInt(event.target.value);
                 sendMidiCC(ccNumber, ccValue);
+
+                // console.log(`CC ${ccNumber} (${elementId}): Value ${ccValue}`);
             });
         }
     };
@@ -434,8 +474,71 @@ function onMIDISuccess(midiAccess) {
     attachSliderListener(CC_LFO2_AMOUNT, 'lfo2-amount');
     attachSliderListener(CC_LFO1_RATE, 'lfo1-rate');
     attachSliderListener(CC_LFO2_RATE, 'lfo2-rate');
-    attachSliderListener(CC_LFO1_WAVE, 'lfo1-wave');
-    attachSliderListener(CC_LFO2_WAVE, 'lfo2-wave');
+    // attachSliderListener(CC_LFO1_WAVE, 'lfo1-wave');
+
+    // --- CUSTOM LISTENER FOR LFO 1 WAVEFORM ---
+    const lfo1WaveSlider = document.getElementById('lfo1-wave');
+    // statusElement is already defined near the OSC listeners
+
+    if (lfo1WaveSlider && statusElement) {
+        
+        // 1. Mouse Down: Store the original status text and clear it
+        lfo1WaveSlider.addEventListener('mousedown', () => {
+            // Re-save the current status text just in case another control was the last one used
+            originalMidiStatusText = statusElement.options[statusElement.selectedIndex].textContent;
+            
+            // Clear the select box text display
+            statusElement.options[statusElement.selectedIndex].textContent = ''; 
+        });
+
+        // 2. Input: Send MIDI, console.log, and update the select box text
+        lfo1WaveSlider.addEventListener('input', (event) => {
+            const ccValue = parseInt(event.target.value);
+            sendMidiCC(CC_LFO1_WAVE, ccValue);
+            
+            const waveformName = getLfo1WaveformName(ccValue);
+            console.log(waveformName);
+
+            // Temporarily display the waveform name in the select box
+            statusElement.options[statusElement.selectedIndex].textContent = waveformName;
+        });
+
+        // 3. Mouse Up: Restore the original status text
+        lfo1WaveSlider.addEventListener('mouseup', () => {
+            // Restore the original status text (the device name)
+            statusElement.options[statusElement.selectedIndex].textContent = originalMidiStatusText;
+        });
+    }
+    // --- END CUSTOM LISTENER FOR LFO 1 WAVEFORM ---
+
+    // attachSliderListener(CC_LFO2_WAVE, 'lfo2-wave');
+
+    // --- CUSTOM LISTENER FOR LFO 2 WAVEFORM (NEW BLOCK) ---
+    const lfo2WaveSlider = document.getElementById('lfo2-wave');
+    
+    if (lfo2WaveSlider && statusElement) {
+        
+        lfo2WaveSlider.addEventListener('mousedown', () => {
+            originalMidiStatusText = statusElement.options[statusElement.selectedIndex].textContent;
+            statusElement.options[statusElement.selectedIndex].textContent = ''; 
+        });
+
+        lfo2WaveSlider.addEventListener('input', (event) => {
+            const ccValue = parseInt(event.target.value);
+            sendMidiCC(CC_LFO2_WAVE, ccValue);
+            
+            const waveformName = getLfo2WaveformName(ccValue);
+            console.log(waveformName);
+
+            statusElement.options[statusElement.selectedIndex].textContent = waveformName;
+        });
+
+        lfo2WaveSlider.addEventListener('mouseup', () => {
+            statusElement.options[statusElement.selectedIndex].textContent = originalMidiStatusText;
+        });
+    }
+
+
     attachSliderListener(CC_LFO1_DEST, 'lfo1-dest');
 
     // Ring Modulation Amount
