@@ -360,12 +360,45 @@ function onMIDISuccess(midiAccess) {
     // Helper to attach listeners to all continuous sliders
     const attachSliderListener = (ccNumber, elementId) => {
         const slider = document.getElementById(elementId);
-        if (slider) {
+        const statusElement = document.getElementById('midi-output-select');
+        // if (slider) {
+        //     slider.addEventListener('input', (event) => {
+        //         const ccValue = parseInt(event.target.value);
+        //         sendMidiCC(ccNumber, ccValue);
+
+        //         // console.log(`CC ${ccNumber} (${elementId}): Value ${ccValue}`);
+        //     });
+        if (slider && statusElement) {
+            // 1. Find the associated label text. 
+            const labelElement = document.querySelector(`label[for="${elementId}"]`);
+            // Use the label text (trimmed and capitalized), or the element ID as a fallback.
+            const labelText = labelElement ? labelElement.textContent.trim().toUpperCase() : elementId.toUpperCase();
+            
+            // 1. Mouse Down: Store the original status text and clear it
+            slider.addEventListener('mousedown', () => {
+                // Must access the global originalMidiStatusText variable
+                originalMidiStatusText = statusElement.options[statusElement.selectedIndex].textContent;
+                statusElement.options[statusElement.selectedIndex].textContent = '';
+            });
+
+            // 2. Input: Send MIDI, console.log, and update the display
             slider.addEventListener('input', (event) => {
                 const ccValue = parseInt(event.target.value);
                 sendMidiCC(ccNumber, ccValue);
+                
+                // Format the display text (e.g., MODULATION: 64)
+                const displayText = `${labelText}: ${ccValue}`;
+                
+                // Console log (retained from previous steps)
+                console.log(`CC ${ccNumber} (${elementId}): Value ${ccValue}`);
+                
+                // Temporarily display the text in the select box
+                statusElement.options[statusElement.selectedIndex].textContent = displayText;
+            });
 
-                // console.log(`CC ${ccNumber} (${elementId}): Value ${ccValue}`);
+            // 3. Mouse Up: Restore the original status text
+            slider.addEventListener('mouseup', () => {
+                statusElement.options[statusElement.selectedIndex].textContent = originalMidiStatusText;
             });
         }
     };
