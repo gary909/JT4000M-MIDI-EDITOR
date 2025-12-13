@@ -213,6 +213,37 @@ input[type="range"] {
 
 /* --- NEW MEDIA QUERY FOR MOBILE VIEW --- */
 @media (max-width: 768px) {
+
+    /* Floating Screen bar */
+    #midi-status {
+        position: fixed; /* Makes it float relative to the viewport */
+        top: 0;
+        left: 0;
+        width: 100%;
+        z-index: 1000; 
+        
+        /* Compact/Horizontal layout */
+        display: flex; 
+        flex-direction: row; 
+        justify-content: center;
+        gap: 20px;
+        align-items: center;
+        
+        /* Appearance */
+        background-color: #36436A;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+        padding: 10px 0; 
+        margin: 0;
+    }
+
+    /* Hide the MIDI device label on mobile to save space on the floating bar */
+    #midi-status label {
+        display: none;
+    }
+
+    body {
+        padding-top: 40px;
+    }
     
     /* 1. Stack the three main header sections vertically */
     #main-header {
@@ -226,7 +257,7 @@ input[type="range"] {
 
     /* 2. Ensure each block is full width (or nearly full) and centered */
     #header-block,
-    #midi-status,
+    /* #midi-status, */
     #patch-controls {
         width: 90%; /* Take up the full width of the main-header */
         margin: 10px 0; /* Add vertical spacing between stacked elements */
