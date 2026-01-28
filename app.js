@@ -713,3 +713,41 @@ function sendMidiCC(ccNumber, value) {
         // console.log("MIDI output device not selected. Cannot send message.");
     }
 }
+
+// --- HAMBURGER MENU LOGIC ---
+const hamburger = document.getElementById('hamburger-menu');
+const sideNav = document.getElementById('side-nav');
+const closeBtn = document.getElementById('close-btn');
+
+hamburger.addEventListener('click', () => {
+    sideNav.style.width = "280px";
+});
+
+closeBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    sideNav.style.width = "0";
+});
+
+// Close menu if clicking anywhere outside the side-nav
+window.addEventListener('click', (e) => {
+    if (e.target !== hamburger && !hamburger.contains(e.target) && e.target !== sideNav && !sideNav.contains(e.target)) {
+        sideNav.style.width = "0";
+    }
+});
+
+// --- ACCORDION LOGIC ---
+const acc = document.getElementsByClassName("accordion-header");
+for (let i = 0; i < acc.length; i++) {
+    acc[i].addEventListener("click", function() {
+        const panel = this.nextElementSibling;
+        const isActive = this.classList.contains("active");
+        for (let j = 0; j < acc.length; j++) {
+            acc[j].classList.remove("active");
+            acc[j].nextElementSibling.style.maxHeight = null;
+        }
+        if (!isActive) {
+            this.classList.add("active");
+            panel.style.maxHeight = panel.scrollHeight + "px";
+        }
+    });
+}

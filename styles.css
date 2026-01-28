@@ -42,6 +42,148 @@ p {
   color: #ebe1d7;
 }
 
+.side-nav a.linkText {
+    font-family: Helvetica, sans-serif;
+    color: #aaa;
+    font-size: 16px;
+    /* font-weight: ; */
+}
+
+.guideNote {
+  color: #b7c0d3 !important;
+}
+
+.nav-note {
+    padding: 10px;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 14px;
+    color: #aaa;
+    line-height: 1.5;
+    justify-content: space-between;
+    /* border-top: 1px solid #333; */
+    /* margin-top: 20px; */
+}
+
+/* ********** HAMBURGER STYLING ******* */
+/* Hamburger Button */
+.hamburger-menu {
+    position: fixed;
+    top: 25px;
+    right: 25px;
+    cursor: pointer;
+    z-index: 1001; /* Above everything, except for the slide nav*/
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.bar {
+    width: 30px;
+    height: 4px;
+    background-color: #2e2e2e;
+    border-radius: 2px;
+}
+
+/* Slide-out Panel */
+.side-nav {
+    height: 100%;
+    width: 0; /* Hidden by default */
+    position: fixed;
+    z-index: 1002;
+    top: 0;
+    right: 0;
+    background-color: #262B30;
+    overflow-x: hidden;
+    transition: 0.2s; /* Smooth slide effect */
+    padding-top: 60px;
+    box-shadow: -5px 0 15px rgba(0,0,0,0.5);
+    color: white;
+}
+
+.side-nav a {
+    padding: 15px 10px 15px 15px; /* top right bottom left */
+    text-decoration: none;
+    font-size: 18px;
+    color: #aaa;
+    display: block;
+    font-family: 'Orbitron', sans-serif;
+    transition: 0.3s;
+    text-align: left;
+}
+
+.side-nav a:hover {
+    color: #EBA85B;
+}
+
+.side-nav .close-btn {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    font-size: 36px;
+}
+
+.side-nav hr {
+    border: 0;
+    border-top: 1px solid #333;
+    margin: 20px;
+}
+
+.HambText {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+/* ********** END OF HAMBURGER STYLING ******* */
+
+
+/* ********** Start OF ACCORDION STYLING ********** */
+.accordion-header {
+
+    background-color: transparent;
+    color: #aaa;
+    cursor: pointer;
+    padding: 15px 25px;
+    width: 100%;
+    text-align: left;
+    border: none;
+    outline: none;
+    transition: 0.4s;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 18px;
+    border-bottom: 1px solid #333;
+}
+
+.accordion-header:hover, .active {
+    color: #EBA85B; /* Highlight color */
+}
+
+/* plus/minus icon */
+.accordion-header:after {
+    content: '\002B'; /* Plus sign */
+    float: right;
+    margin-left: 5px;
+}
+
+.active:after {
+    content: "\2212"; /* Minus sign */
+}
+
+.accordion-content {
+    padding: 0 10px;
+    background-color: #222;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out; /* Smooth slide */
+}
+
+.accordion-content p {
+    font-size: 14px;
+    color: #eee;
+    line-height: 1.6;
+}
+
+/* ********** END OF ACCORDION STYLING ********** */
+
 #main-header {
     display: flex;
     justify-content: space-around;
