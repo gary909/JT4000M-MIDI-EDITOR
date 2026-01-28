@@ -737,6 +737,11 @@ aboutBtn.addEventListener('click', (e) => {
 
 // Close menu if clicking anywhere outside the side-nav
 window.addEventListener('click', (e) => {
+    // lets the link work!
+    if (e.target.classList.contains('linkText')) {
+        return; 
+    }
+
     if (e.target !== hamburger && !hamburger.contains(e.target) && e.target !== sideNav && !sideNav.contains(e.target)) {
         sideNav.style.width = "0";
     }
