@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://www.behringer-jt4000m-editor.co.uk/sitemap.xml
