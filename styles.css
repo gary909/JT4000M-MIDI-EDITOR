@@ -242,8 +242,10 @@ p {
     margin-bottom: 8px;
 }
 
+/* SLIDER STYLING */
 input[type="range"] {
     width: 90px; 
+    accent-color: #A64DBD; 
 }
 
 
