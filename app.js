@@ -718,6 +718,7 @@ function sendMidiCC(ccNumber, value) {
 const hamburger = document.getElementById('hamburger-menu');
 const sideNav = document.getElementById('side-nav');
 const closeBtn = document.getElementById('close-btn');
+const aboutBtn = document.getElementById('about-btn');
 
 hamburger.addEventListener('click', () => {
     sideNav.style.width = "280px";
@@ -726,6 +727,12 @@ hamburger.addEventListener('click', () => {
 closeBtn.addEventListener('click', (e) => {
     e.preventDefault();
     sideNav.style.width = "0";
+});
+
+// About Alert
+aboutBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    alert('JT4000M MIDI Editor\nVersion 1.0\nCreated for Behringer JT-4000M Micro Synthesizer');
 });
 
 // Close menu if clicking anywhere outside the side-nav
