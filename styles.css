@@ -69,7 +69,7 @@ p {
 .hamburger-menu {
     position: fixed;
     top: 25px;
-    right: 25px;
+    right: 15px;
     cursor: pointer;
     z-index: 1001; /* Above everything, except for the slide nav*/
     display: flex;
