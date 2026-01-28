@@ -118,7 +118,7 @@ p {
 .side-nav .close-btn {
     position: absolute;
     top: 0px;
-    right: 0px;
+    right: 20px;
     font-size: 36px;
 }
 
@@ -351,6 +351,23 @@ input[type="range"] {
     text-decoration: underline;
     /* You might also want to change the color for emphasis */
     color: #EBA85B !important; 
+}
+
+.wavs-diagram {
+    display: block;      /* Required for margin: auto to work */
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;        /* Makes the image span the width of the control box */
+    height: auto;       /* Maintains aspect ratio */
+    margin-bottom: 10px; /* Space between image and the "VCA EG" text */
+    border-radius: 4px; /* Optional: matches your box styling */
+    opacity: 0.9;       /* Optional: softens the image to match the UI */
+}
+
+.side-nav .wavs-diagram {
+    width: 70%;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 
 /* --- NEW MEDIA QUERY FOR MOBILE VIEW --- */
