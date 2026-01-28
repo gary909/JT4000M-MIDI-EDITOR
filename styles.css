@@ -68,7 +68,7 @@ p {
 /* Hamburger Button */
 .hamburger-menu {
     position: fixed;
-    top: 25px;
+    top: 20px;
     right: 15px;
     cursor: pointer;
     z-index: 1001; /* Above everything, except for the slide nav*/
