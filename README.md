@@ -1,6 +1,6 @@
 "# JT4000M-MIDI-EDITOR" 
 
-Try it here: https://gary909.github.io/JT4000M-MIDI-EDITOR/
+Try it here: https://www.behringer-jt4000m-editor.co.uk/
 
 ![Behringer JT 4000 MIDI Editor](media/editorImage.png)
 
