@@ -49,6 +49,42 @@ p {
     /* font-weight: ; */
 }
 
+#footer-disclaimer {
+  background-color: rgba(20, 20, 20, 0.7);
+  padding: 12px 20px;
+  border-radius: 8px;
+  max-width: 90%;
+  text-align: center;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+#footer-disclaimer p {
+  margin: 0;
+  font-size: 12px;
+  letter-spacing: 0.5px;
+  font-family: 'Orbitron', sans-serif;
+  color: #b7c0d3;
+}
+
+@media (max-width: 1200px) {
+  #footer-disclaimer {
+    position: relative;
+    margin: 10px auto 0;
+    margin-bottom: 5px;
+    transform: none;
+    left: auto;
+  }
+}
+
+@media (min-width: 1201px) {
+  #footer-disclaimer {
+    position: fixed;
+    bottom: 20px;
+    z-index: 999;
+  }
+}
+
 .guideNote {
   color: #b7c0d3 !important;
 }
