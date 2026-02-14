@@ -49,6 +49,7 @@ p {
     /* font-weight: ; */
 }
 
+/* ********** FOOTER DISCLAIMER STYLING ********** */
 #footer-disclaimer {
   background-color: rgba(20, 20, 20, 0.7);
   padding: 12px 20px;
@@ -84,6 +85,7 @@ p {
     z-index: 999;
   }
 }
+/* ********** END OF FOOTER DISCLAIMER STYLING ********** */
 
 .guideNote {
   color: #b7c0d3 !important;
