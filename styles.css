@@ -285,6 +285,18 @@ p {
     margin: 10px;
 }
 
+.privacy-page #controls {
+    align-items: stretch;
+}
+
+.privacy-page .control-box {
+    width: min(100%, 360px);
+    min-height: 220px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+}
+
 .control-box h3 {
     margin-top: 0;
     margin-bottom: 12px;
