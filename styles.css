@@ -42,6 +42,15 @@ p {
   color: #ebe1d7;
 }
 
+#controls a {
+    color: #EBA85B;
+    text-decoration: none;
+}
+
+#controls a:hover {
+    text-decoration: underline;
+}
+
 .side-nav a.linkText {
     font-family: Helvetica, sans-serif;
     color: #aaa;
@@ -66,6 +75,15 @@ p {
   letter-spacing: 0.5px;
   font-family: 'Orbitron', sans-serif;
   color: #b7c0d3;
+}
+
+#footer-disclaimer a {
+    color: #EBA85B;
+    text-decoration: none;
+}
+
+#footer-disclaimer a:hover {
+    text-decoration: underline;
 }
 
 @media (max-width: 1200px) {
