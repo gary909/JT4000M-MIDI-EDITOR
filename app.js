@@ -720,32 +720,34 @@ const sideNav = document.getElementById('side-nav');
 const closeBtn = document.getElementById('close-btn');
 const aboutBtn = document.getElementById('about-btn');
 
-hamburger.addEventListener('click', () => {
-    sideNav.style.width = "280px";
-});
+if (hamburger && sideNav && closeBtn && aboutBtn) {
+    hamburger.addEventListener('click', () => {
+        sideNav.style.width = "280px";
+    });
 
-closeBtn.addEventListener('click', (e) => {
-    e.preventDefault();
-    sideNav.style.width = "0";
-});
-
-// About Alert
-aboutBtn.addEventListener('click', (e) => {
-    e.preventDefault();
-    alert('JT4000M MIDI Editor\nVersion 1.0\nCreated for Behringer JT-4000M Micro Synthesizer');
-});
-
-// Close menu if clicking anywhere outside the side-nav
-window.addEventListener('click', (e) => {
-    // lets the link work!
-    if (e.target.classList.contains('linkText')) {
-        return; 
-    }
-
-    if (e.target !== hamburger && !hamburger.contains(e.target) && e.target !== sideNav && !sideNav.contains(e.target)) {
+    closeBtn.addEventListener('click', (e) => {
+        e.preventDefault();
         sideNav.style.width = "0";
-    }
-});
+    });
+
+    // About Alert
+    aboutBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        alert('JT4000M MIDI Editor\nVersion 1.0\nCreated for Behringer JT-4000M Micro Synthesizer');
+    });
+
+    // Close menu if clicking anywhere outside the side-nav
+    window.addEventListener('click', (e) => {
+        // lets the link work!
+        if (e.target.classList.contains('linkText')) {
+            return; 
+        }
+
+        if (e.target !== hamburger && !hamburger.contains(e.target) && e.target !== sideNav && !sideNav.contains(e.target)) {
+            sideNav.style.width = "0";
+        }
+    });
+}
 
 // --- ACCORDION LOGIC ---
 const acc = document.getElementsByClassName("accordion-header");
