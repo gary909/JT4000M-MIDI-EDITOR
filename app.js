@@ -719,6 +719,25 @@ const hamburger = document.getElementById('hamburger-menu');
 const sideNav = document.getElementById('side-nav');
 const closeBtn = document.getElementById('close-btn');
 const aboutBtn = document.getElementById('about-btn');
+const versionNumber = document.getElementById('version-number');
+const aboutModal = document.getElementById('about-modal');
+const aboutModalClose = document.getElementById('about-modal-close');
+
+function openAboutModal() {
+    if (!aboutModal) {
+        return;
+    }
+    aboutModal.classList.remove('modal-hidden');
+    aboutModal.setAttribute('aria-hidden', 'false');
+}
+
+function closeAboutModal() {
+    if (!aboutModal) {
+        return;
+    }
+    aboutModal.classList.add('modal-hidden');
+    aboutModal.setAttribute('aria-hidden', 'true');
+}
 
 if (hamburger && sideNav && closeBtn && aboutBtn) {
     hamburger.addEventListener('click', () => {
@@ -730,10 +749,10 @@ if (hamburger && sideNav && closeBtn && aboutBtn) {
         sideNav.style.width = "0";
     });
 
-    // About Alert
+    // About modal
     aboutBtn.addEventListener('click', (e) => {
         e.preventDefault();
-        alert('JT4000M MIDI Editor\nVersion 1.0\nCreated for Behringer JT-4000M Micro Synthesizer');
+        openAboutModal();
     });
 
     // Close menu if clicking anywhere outside the side-nav
@@ -765,3 +784,43 @@ for (let i = 0; i < acc.length; i++) {
         }
     });
 }
+
+// --- FOOTER DISCLAIMER CLOSE/SHOW LOGIC ---
+const footerDisclaimer = document.getElementById('footer-disclaimer');
+const closeFooterDisclaimerBtn = document.getElementById('close-footer-disclaimer');
+const showFooterDisclaimerLink = document.getElementById('show-footer-disclaimer');
+
+if (footerDisclaimer && closeFooterDisclaimerBtn) {
+    closeFooterDisclaimerBtn.addEventListener('click', () => {
+        footerDisclaimer.style.display = 'none';
+    });
+}
+
+if (footerDisclaimer && showFooterDisclaimerLink) {
+    showFooterDisclaimerLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        footerDisclaimer.style.display = 'block';
+    });
+}
+
+if (aboutModalClose) {
+    aboutModalClose.addEventListener('click', closeAboutModal);
+}
+
+if (versionNumber) {
+    versionNumber.addEventListener('click', openAboutModal);
+}
+
+if (aboutModal) {
+    aboutModal.addEventListener('click', (e) => {
+        if (e.target === aboutModal) {
+            closeAboutModal();
+        }
+    });
+}
+
+window.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && aboutModal && !aboutModal.classList.contains('modal-hidden')) {
+        closeAboutModal();
+    }
+});
