@@ -10,6 +10,7 @@ V1.02 - Graphics Update
 
 <img width="1778" height="826" alt="Screenshot 2026-05-18 151009" src="https://github.com/user-attachments/assets/6e19fa60-89e4-4f59-8872-ef0addc2ccee" />
 
+Older Version:
 
 ![Behringer JT 4000 MIDI Editor](media/editorImage.png)
 
