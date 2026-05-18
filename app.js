@@ -882,3 +882,31 @@ function setupNavSynth() {
 }
 
 setupNavSynth();
+
+// --- ABOUT MODAL SYNTH CONSTANT SPIN ---
+function setupModalSynth() {
+    const wrap = document.getElementById('about-modal-synth-wrap');
+    if (!wrap) return;
+
+    const imgs = Array.from(wrap.querySelectorAll('.about-modal-synth-img'));
+    const OFFSETS = [0, 1.5, 3];
+    const SPEED = 30; // deg/s
+    let angle = 0;
+    let lastTime = null;
+
+    function spinLoop(ts) {
+        if (lastTime == null) lastTime = ts;
+        const dt = (ts - lastTime) / 1000;
+        lastTime = ts;
+        angle = (angle + SPEED * dt) % 360;
+        imgs.forEach((img, i) => {
+            const a = ((angle + OFFSETS[i]) % 360 + 360) % 360;
+            img.style.transform = `perspective(300px) rotateY(${a}deg)`;
+        });
+        requestAnimationFrame(spinLoop);
+    }
+
+    requestAnimationFrame(spinLoop);
+}
+
+setupModalSynth();
