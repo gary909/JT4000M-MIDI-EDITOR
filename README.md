@@ -1,6 +1,16 @@
 "# JT4000M-MIDI-EDITOR" 
 
+
 Try it here: https://www.behringer-jt4000m-editor.co.uk/
+
+
+<img width="150" height="auto" alt="jt_Spin" src="https://github.com/user-attachments/assets/830e1df3-2ea2-420f-a192-7bc1c76fd5d6" />
+
+V1.02 - Graphics Update
+
+<img width="1778" height="826" alt="Screenshot 2026-05-18 151009" src="https://github.com/user-attachments/assets/6e19fa60-89e4-4f59-8872-ef0addc2ccee" />
+
+Older Version:
 
 ![Behringer JT 4000 MIDI Editor](media/editorImage.png)
 
