@@ -679,6 +679,7 @@ p {
     width: 250px;
     background-color: #514109;
     color: #B3B953;
+    text-shadow: rgba(110, 233, 250, 0.5) 1px 0 8px; /* set glow of text */
     font-family: 'VT323', monospace;
     font-size: 1.2em;
     border: 5px solid #313236;
