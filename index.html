@@ -258,13 +258,14 @@
         <div class="control-box">
             <h3>RING MODULATION</h3>
 
-            <div class="parameter-row">
-            <div class="tooltip">
-                <label for="ring-mod-onoff">ON/OFF</label>
-                <span class="tooltiptext">MIDI CC 96</span>
-            </div>  
-                <!-- <label for="ring-mod-onoff">ON/OFF</label> -->
-                <input type="checkbox" id="ring-mod-onoff">
+            <div class="parameter-row toggle-row">
+                <button class="toggle-button" id="ring-mod-onoff" aria-pressed="false">
+                    <span class="toggle-led"></span>
+                </button>
+                <div class="tooltip">
+                    <label>ON/OFF</label>
+                    <span class="tooltiptext">MIDI CC 96</span>
+                </div>
             </div>
 
             <div class="parameter-row">

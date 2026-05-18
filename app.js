@@ -119,8 +119,9 @@ function initPatch() {
             let midiValue = param.value;
             
             if (param.isCheckbox) {
-                // For Checkboxes (like Ring Mod ON/OFF), 0 is off (false)
-                element.checked = (param.value === 127);
+                const isOn = param.value === 127;
+                element.setAttribute('aria-pressed', isOn ? 'true' : 'false');
+                element.classList.toggle('is-active', isOn);
             } else {
                 // For Sliders
                 element.value = param.value;
@@ -185,7 +186,9 @@ function randomPatch() {
                 // Randomly set Ring Mod On/Off (0 or 127)
                 // 1 in 3 chance of being ON (127)
                 randomValue = getRandomInt(0, 2) === 2 ? 127 : 0;
-                element.checked = (randomValue === 127);
+                const isOn = randomValue === 127;
+                element.setAttribute('aria-pressed', isOn ? 'true' : 'false');
+                element.classList.toggle('is-active', isOn);
                 midiValue = randomValue;
             } else {
                 // Random value for sliders
@@ -628,13 +631,24 @@ function onMIDISuccess(midiAccess) {
     // Ring Modulation Amount
     attachSliderListener(CC_RING_MOD_AMT, 'ring-mod-amount');
 
-    // Ring Modulation ON/OFF (CC 96) - Special Checkbox Listener
+    // Ring Modulation ON/OFF (CC 96) - Toggle Button Listener
     const ringModOnOff = document.getElementById('ring-mod-onoff');
     if (ringModOnOff) {
-        ringModOnOff.addEventListener('change', (event) => {
-            // Send 127 if checked (on), 0 if unchecked (off)
-            const ccValue = event.target.checked ? 127 : 0;
-            sendMidiCC(CC_RING_MOD_ONOFF, ccValue);
+        ringModOnOff.addEventListener('click', () => {
+            const isOn = ringModOnOff.getAttribute('aria-pressed') !== 'true';
+            ringModOnOff.setAttribute('aria-pressed', isOn ? 'true' : 'false');
+            ringModOnOff.classList.toggle('is-active', isOn);
+
+            const statusEl = document.getElementById('midi-output-select');
+            if (statusEl && statusEl.options[statusEl.selectedIndex]) {
+                const prev = statusEl.options[statusEl.selectedIndex].textContent;
+                statusEl.options[statusEl.selectedIndex].textContent = `RING MOD: ${isOn ? 'ON' : 'OFF'}`;
+                setTimeout(() => {
+                    statusEl.options[statusEl.selectedIndex].textContent = prev;
+                }, 1500);
+            }
+
+            sendMidiCC(CC_RING_MOD_ONOFF, isOn ? 127 : 0);
         });
     }
 }
