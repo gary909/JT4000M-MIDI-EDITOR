@@ -21,7 +21,7 @@ h1 {
 }
 
 h2 {
-  color: #EBA85B;
+  color: #ff8e0c;
   font-family: 'Orbitron', sans-serif;
   font-size: 37px;
   margin-top: 0;
@@ -29,7 +29,7 @@ h2 {
 }
 
 h3 {
-  color: #EBA85B;
+  color: #ff8e0c;
   text-align: center;
 }
 
@@ -43,7 +43,7 @@ p {
 }
 
 #controls a {
-    color: #EBA85B;
+    color: #ff8e0c;
     text-decoration: none;
 }
 
@@ -264,13 +264,13 @@ p {
 .bar {
     width: 30px;
     height: 4px;
-    background-color: #EBA85B;
+    background-color: #ff8e0c;
     border-radius: 2px;
     transition: background-color 0.3s ease;
 }
 
 .hamburger-menu:hover .bar {
-    background-color: #8e5a1d;
+    background-color: #ff4800;
     cursor: pointer;
 }
 
@@ -302,7 +302,7 @@ p {
 }
 
 .side-nav a:hover {
-    color: #EBA85B;
+    color: #ff8e0c;
 }
 
 .side-nav .close-btn {
@@ -344,7 +344,7 @@ p {
 }
 
 .accordion-header:hover, .active {
-    color: #EBA85B; /* Highlight color */
+    color: #ff8e0c; /* Highlight color */
 }
 
 /* plus/minus icon */
@@ -405,7 +405,7 @@ p {
 
 .control-box {
     background-color: #36436A;
-    border: 3px solid #313236;
+    border: 3px solid #252527;
     padding: 10px;
     border-radius: 10px;
     overflow: visible;
@@ -441,7 +441,7 @@ p {
     margin-bottom: 10px;
     padding: 6px 10px 2px 10px;
     box-sizing: border-box;
-    background-color: #313236;
+    background-color: #252527;
     text-align: center;
     border-radius: 7px 7px 0 0;
 }
