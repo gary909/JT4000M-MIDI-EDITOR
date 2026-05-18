@@ -8,7 +8,8 @@ Try it here: https://www.behringer-jt4000m-editor.co.uk/
 
 V1.02 - Graphics Update
 
-<img width="1778" height="826" alt="Screenshot 2026-05-18 151009" src="https://github.com/user-attachments/assets/6e19fa60-89e4-4f59-8872-ef0addc2ccee" />
+<img width="1775" height="818" alt="Screenshot 2026-05-18 151524" src="https://github.com/user-attachments/assets/f5d65e45-bbdd-4796-a005-88319026b9d0" />
+
 
 Older Version:
 
