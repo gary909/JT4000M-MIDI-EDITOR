@@ -205,6 +205,11 @@ p {
     bottom: 20px;
     z-index: 999;
   }
+
+  #main-header {
+    margin-left: 80px;
+    width: calc(100% - 80px);
+  }
 }
 /* ********** END OF FOOTER DISCLAIMER STYLING ********** */
 
