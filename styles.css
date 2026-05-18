@@ -207,8 +207,8 @@ p {
   }
 
   #main-header {
-    margin-left: 80px;
-    width: calc(100% - 80px);
+    margin-left: 180px;
+    width: calc(100% - 180px);
   }
 }
 /* ********** END OF FOOTER DISCLAIMER STYLING ********** */

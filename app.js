@@ -254,41 +254,29 @@ function getOsc2WaveformName(value) {
 
 // --- NEW HELPER FUNCTION: Update OSC 2 PWM Label State ---
 function updateOsc2PwmLabelState(osc2WaveValue) {
-    const osc2PwmLabel = document.querySelector('label[for="osc2-pwm"]');
-    if (osc2PwmLabel) {
-        // The PWM range is 63 to 83 (inclusive)
-        if (osc2WaveValue >= 63 && osc2WaveValue <= 83) {
-            osc2PwmLabel.classList.add('active-control');
-        } else {
-            // Remove the class when outside the range
-            osc2PwmLabel.classList.remove('active-control');
-        }
+    const label = document.getElementById('osc2-pwm-label');
+    if (!label) return;
+    if (osc2WaveValue >= 63 && osc2WaveValue <= 83) {
+        label.textContent = 'PWM';
+    } else {
+        label.textContent = 'OFF';
     }
 }
 
 // --- NEW HELPER FUNCTION: Update OSC 1 PWM/Detune/FM Label State ---
 function updateOsc1PwmDetuneFmState(osc1WaveValue) {
-    // Determine the current waveform name (e.g., 'OSC 1: PWM')
     const waveformName = getOsc1WaveformName(osc1WaveValue);
+    const label = document.getElementById('osc1-pwm-detune-label');
+    if (!label) return;
 
-    // Select the three label spans using the IDs created in index.html
-    const pwmSpan = document.getElementById('osc1-pwm-label');
-    const detuneSpan = document.getElementById('osc1-detune-label');
-    const fmSpan = document.getElementById('osc1-fm-label');
-
-    // Create an array of all spans for easy reset
-    const allSpans = [pwmSpan, detuneSpan, fmSpan].filter(e => e); 
-
-    // 1. Reset: Remove the active-control class from all spans first
-    allSpans.forEach(span => span.classList.remove('active-control'));
-
-    // 2. Apply: Add the class to the specific span based on the waveform
-    if (waveformName === 'OSC 1: PWM' && pwmSpan) {
-        pwmSpan.classList.add('active-control');
-    } else if (waveformName === 'OSC 1: SUPERSAW' && detuneSpan) {
-        detuneSpan.classList.add('active-control');
-    } else if (waveformName === 'OSC 1: FM' && fmSpan) {
-        fmSpan.classList.add('active-control');
+    if (waveformName === 'OSC 1: PWM') {
+        label.textContent = 'PWM';
+    } else if (waveformName === 'OSC 1: SUPERSAW') {
+        label.textContent = 'DETUNE';
+    } else if (waveformName === 'OSC 1: FM') {
+        label.textContent = 'FM';
+    } else {
+        label.textContent = 'OFF';
     }
 }
 
@@ -372,10 +360,8 @@ function onMIDISuccess(midiAccess) {
         //         // console.log(`CC ${ccNumber} (${elementId}): Value ${ccValue}`);
         //     });
         if (slider && statusElement) {
-            // 1. Find the associated label text. 
+            // 1. Find the associated label element (used to read text dynamically on input)
             const labelElement = document.querySelector(`label[for="${elementId}"]`);
-            // Use the label text (trimmed and capitalized), or the element ID as a fallback.
-            const labelText = labelElement ? labelElement.textContent.trim().toUpperCase() : elementId.toUpperCase();
             
             // 1. Mouse Down: Store the original status text and clear it
             slider.addEventListener('mousedown', () => {
@@ -389,6 +375,8 @@ function onMIDISuccess(midiAccess) {
                 const ccValue = parseInt(event.target.value);
                 sendMidiCC(ccNumber, ccValue);
                 
+                // Read label text dynamically so dynamic labels (e.g. PWM/DETUNE/FM) reflect current state
+                const labelText = labelElement ? labelElement.textContent.trim().toUpperCase() : elementId.toUpperCase();
                 // Format the display text (e.g., MODULATION: 64)
                 const displayText = `${labelText}: ${ccValue}`;
                 
@@ -484,20 +472,7 @@ function onMIDISuccess(midiAccess) {
             // Temporarily display the waveform name in the select box
             statusElement.options[statusElement.selectedIndex].textContent = waveformName;
 
-            // --- UPDATED: Use the new helper function ---
             updateOsc2PwmLabelState(ccValue);
-
-            // --- OSC 2 PWM DYNAMIC STYLING LOGIC ---
-            if (osc2PwmLabel) {
-                // The PWM range is 63 to 83 (inclusive)
-                if (ccValue >= 63 && ccValue <= 83) {
-                    // Add the class to underline the label
-                    osc2PwmLabel.classList.add('active-control');
-                } else {
-                    // Remove the class when outside the range
-                    osc2PwmLabel.classList.remove('active-control');
-                }
-            }
         });
 
         // 3. Mouse Up: Restore the original status text

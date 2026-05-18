@@ -162,7 +162,7 @@
             <h3>OSC COMMON</h3>
             <div class="parameter-row">
                 <div class="tooltip">
-                    <label for="osc-balance">BAL</label>
+                    <label for="osc-balance">BAL L/R</label>
                     <span class="tooltiptext">OSC BALANCE (MIDI CC 29)</span>
                 </div>  
                 <!-- <label for="osc-balance">Oscillator Balance (CC 29):</label> -->
@@ -174,8 +174,8 @@
             <h3>OSC 1</h3>
             <div class="parameter-row">  
                 <div class="tooltip">
-                    <label for="osc1-wave">WAVEFORM</label>
-                    <span class="tooltiptext">MIDI CC 24</span>
+                    <label for="osc1-wave">WAV</label>
+                    <span class="tooltiptext">WAVEFORM (MIDI CC 24)</span>
                 </div>               
                 <!-- <label for="osc1-wave">Waveform (CC 24):</label> -->
                 <input type="range" id="osc1-wave" min="0" max="127" value="18">
@@ -183,8 +183,8 @@
 
             <div class="parameter-row">
                 <div class="tooltip">
-                    <label for="osc1-coarse">COARSE TUNE</label>
-                    <span class="tooltiptext">MIDI CC 115</span>
+                    <label for="osc1-coarse">CRS</label>
+                    <span class="tooltiptext">COARSE TUNE (MIDI CC 115)</span>
                 </div>    
                 <!-- <label for="osc1-coarse">Coarse Tune (CC 115):</label> -->
                 <input type="range" id="osc1-coarse" min="0" max="127" value="64">
@@ -192,8 +192,8 @@
 
             <div class="parameter-row">
                 <div class="tooltip">
-                    <label for="osc1-fine">FINE TUNE</label>
-                    <span class="tooltiptext">MIDI CC 111</span>
+                    <label for="osc1-fine">FINE</label>
+                    <span class="tooltiptext">FINE TUNE (MIDI CC 111)</span>
                 </div>    
                 <!-- <label for="osc1-fine">Fine Tune (CC 111):</label> -->
                 <input type="range" id="osc1-fine" min="0" max="127" value="64">
@@ -201,12 +201,7 @@
 
             <div class="parameter-row">
                 <div class="tooltip">
-                    <!-- <label for="osc1-pwm-detune">PWM/Detune/FM</label> -->
-                    <label for="osc1-pwm-detune">
-                        <span id="osc1-pwm-label">PWM </span>/
-                        <span id="osc1-detune-label">DETUNE </span>/
-                        <span id="osc1-fm-label"> FM</span>
-                    </label>
+                    <label for="osc1-pwm-detune"><span id="osc1-pwm-detune-label">OFF</span></label>
                     <span class="tooltiptext">PWM/S-SAW Detune/FM FEEDBACK MIDI CC 113</span>
                 </div>                 
                 <!-- <label for="osc1-pwm-detune">OSC1 PWM/ S-SAW Detune/FM FEEDBACK</label> -->
@@ -247,7 +242,7 @@
 
             <div class="parameter-row">
                 <div class="tooltip">
-                    <label for="osc2-pwm">PWM</label>
+                    <label for="osc2-pwm"><span id="osc2-pwm-label">OFF</span></label>
                     <span class="tooltiptext">MIDI CC 114</span>
                 </div> 
                 <!-- <label for="osc2-pwm">PWM (CC 114):</label> -->
